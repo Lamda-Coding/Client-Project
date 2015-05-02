@@ -1,4 +1,4 @@
-package ClientPackage;
+package clientPackage;
 
 public class GitTest {
 
