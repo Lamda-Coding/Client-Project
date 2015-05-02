@@ -1,10 +1,12 @@
+package ClientPackage;
+
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 
-public class Test {
+public class ImgRecTest {
 
 	public static void drawLine(BufferedImage i, int x1, int y1, int x2,
 			int y2, int bw, Color c) {
