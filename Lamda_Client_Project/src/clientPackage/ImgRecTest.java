@@ -140,14 +140,14 @@ public class ImgRecTest {
 	public static void main(String[] args) throws IOException {
 		BufferedImage i = null;
 		try {
-			i = ImageIO.read(new File("unnamed2.jpg"));
+			i = ImageIO.read(new File("phonepic.jpg"));
 		} catch (IOException e) {
 		}
-		Color c = new Color(109, 13, 58);
+		Color c = Color.GREEN;
 		System.out.println("width: " + i.getWidth() + "  height: "
 				+ i.getHeight());
 		System.out.println("c: " + (c.getRed() + c.getGreen() + c.getBlue()));
-		int[] region = findRegion(i, c, 50);
+		int[] region = findRegion(i, c, 200);
 		for (int n : region) {
 			System.out.println(n);
 		}
@@ -155,5 +155,7 @@ public class ImgRecTest {
 		File f = new File("pic_test.png");
 		ImageIO.write(i, "PNG", f);
 	}
+	
+	//HI AZEEM
 
 }
