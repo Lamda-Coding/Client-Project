@@ -52,6 +52,7 @@ public class ImgRecTest {
 	}
 
 	public static int getTop(BufferedImage i, int x, int y, Color c, int e) {
+		i.setRGB(x,  y, Color.RED.getRGB());
 		Color a = new Color(i.getRGB(x, y));
 		if (y > 0 && sameColor(a, c, e)) {
 			return getTop(i, x, y - 1, c, e);
@@ -60,30 +61,36 @@ public class ImgRecTest {
 	}
 
 	public static int getBottom(BufferedImage i, int x, int y, Color c, int e) {
+		i.setRGB(x,  y, Color.RED.getRGB());
 		Color a = new Color(i.getRGB(x, y));
-		Color z = new Color(i.getRGB(x + 5, y));
-		if (x < i.getHeight() - 1 && sameColor(a, c, e)) {
-			return getRight(i, x, y + 1, c, e);
+		Color z;
+		if (x + 5 < i.getWidth()) {
+			z = new Color(i.getRGB(x + 5, y));	
+		} else {
+			z = Color.BLACK;
+		}
+		if (y < i.getHeight() - 1 && sameColor(a, c, e)) {
+			return getBottom(i, x, y + 1, c, e);
 		} else if (sameColor(z, c, e)) {
-			return getRight(i, x + 1, y, c, e);
+			return getBottom(i, x + 1, y, c, e);
 		}
 		return x;
 	}
 
 	public static int getLeft(BufferedImage i, int x, int y, Color c, int e) {
+		i.setRGB(x,  y, Color.RED.getRGB());
 		Color a = new Color(i.getRGB(x, y));
 		Color z = new Color(i.getRGB(x, y + 5));
 		if (x > 0 && sameColor(a, c, e)) {
-			System.out.println("WOW");
 			return getLeft(i, x - 1, y, c, e);
 		} else if (sameColor(z, c, e)) {
-			System.out.println("YAY");
 			return getLeft(i, x, y + 1, c, e);
 		}
 		return x;
 	}
 
 	public static int getRight(BufferedImage i, int x, int y, Color c, int e) {
+		i.setRGB(x,  y, c.getRGB());
 		Color a = new Color(i.getRGB(x, y));
 		Color z = new Color(i.getRGB(x, y + 5));
 		if (x < i.getWidth() - 1 && sameColor(a, c, e)) {
@@ -143,15 +150,15 @@ public class ImgRecTest {
 			i = ImageIO.read(new File("phonepic.jpg"));
 		} catch (IOException e) {
 		}
-		Color c = Color.GREEN;
+		Color c = new Color(99, 143, 87);
 		System.out.println("width: " + i.getWidth() + "  height: "
 				+ i.getHeight());
 		System.out.println("c: " + (c.getRed() + c.getGreen() + c.getBlue()));
-		int[] region = findRegion(i, c, 200);
+		int[] region = findRegion(i, c, 5);
 		for (int n : region) {
 			System.out.println(n);
 		}
-		drawSquare(i, region[0], region[1], region[2], region[3], 5, Color.RED);
+		//drawSquare(i, region[0], region[1], region[2], region[3], 5, Color.RED);
 		File f = new File("pic_test.png");
 		ImageIO.write(i, "PNG", f);
 	}
