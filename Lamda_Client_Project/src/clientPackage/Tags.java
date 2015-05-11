@@ -15,7 +15,7 @@ public class Tags {
 	private boolean[] valBin=new boolean[8];//0-511
 	private int val; //Decimal value
 	private String name;
-	private void convBin(int val){
+	private void convBin(){
 		if(val>Math.pow(2, 8)){
 			System.out.println("Error");
 		}
@@ -110,6 +110,7 @@ public class Tags {
 		}
 		name=n;
 		//write to file
+		convBin();
 		
 	}
 	public Tags(int v){ //find tag for value at v
@@ -120,6 +121,7 @@ public class Tags {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		convBin();
 	}
 	
 
