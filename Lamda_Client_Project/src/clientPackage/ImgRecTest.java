@@ -43,6 +43,14 @@ public class ImgRecTest {
 		drawLine(i, x, h, w, h, bw, c);
 		drawLine(i, x, y, x, h, bw, c);
 	}
+	
+	public static void fillSquare(BufferedImage i, int x, int y, int w, int h, Color c) {
+		for (int n = x; n < w; n++) {
+			for (int m = y; m < h; m++) {
+				i.setRGB(n, m, c.getRGB());
+			}
+		}
+	} 
 
 	public static boolean sameColor(Color a, Color b, int e) {
 		double d = Math.sqrt(Math.pow(b.getRed() - a.getRed(), 2)
