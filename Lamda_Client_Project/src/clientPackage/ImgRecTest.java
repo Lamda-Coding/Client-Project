@@ -47,7 +47,7 @@ public class ImgRecTest {
 	public static void fillSquare(BufferedImage i, int x, int y, int w, int h, Color c) {
 		for (int n = x; n < w; n++) {
 			for (int m = y; m < h; y++) {
-				i.setRGB(n, m, c.getRGB);
+				i.setRGB(n, m, c.setRGB());
 			}
 		}
 	}
