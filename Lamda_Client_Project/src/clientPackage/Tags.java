@@ -9,6 +9,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Tags {
@@ -16,18 +17,20 @@ public class Tags {
 	private int val; //Decimal value
 	private String name;
 	private void convBin(){
-		if(val>Math.pow(2, 8)){
+		int temp=val;
+		if(temp>Math.pow(2, 8)){
 			System.out.println("Error");
 		}
 		else{
 			for(int i=7;i>=0;i--){
-				if (val>Math.pow(2, i)){
+				if (temp>=Math.pow(2, i)){
+					temp-=Math.pow(2, i);
 					valBin[8-i-1]=true;
 				}
 			}
 		}
 	}
-	private static ArrayList<Integer> vals=new ArrayList<Integer>();
+	//private static ArrayList<Integer> vals=new ArrayList<Integer>();
 	//returns amount of lines in the file
 		public static int lines(String file) throws FileNotFoundException {
 			Scanner sc = new Scanner(new File(file));
@@ -42,6 +45,7 @@ public class Tags {
 
 		//returns specified line
 		public static String getLine(String file, int l) throws IOException {
+			l+=1;
 			FileInputStream fs = new FileInputStream(file);
 			BufferedReader br = new BufferedReader(new InputStreamReader(fs));
 			for (int i = 0; i < l - 1; ++i) {
@@ -96,7 +100,7 @@ public class Tags {
 		}
 		try {
 			if (val==-1){
-				val=lines("tags.txt")+1;
+				val=lines("tags.txt");
 				try {
 					addLine("tags.txt",n);
 				} catch (IOException e) {
@@ -122,6 +126,15 @@ public class Tags {
 			e.printStackTrace();
 		}
 		convBin();
+	}
+	public String getBin(){
+		return Arrays.toString(valBin);
+	}
+	public String getName(){
+		return name;
+	}
+	public int getVal(){
+		return val;
 	}
 	
 
