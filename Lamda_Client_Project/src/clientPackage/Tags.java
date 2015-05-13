@@ -13,24 +13,70 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 public class Tags {
-	private boolean[] valBin=new boolean[8];//0-511
+	//--------------------------------------Fields-------------------------------------
+	private boolean[] valBin=new boolean[8];//Binary Value constrained to decimal 0-511
 	private int val; //Decimal value
-	private String name;
-	private void convBin(){
-		int temp=val;
-		if(temp>Math.pow(2, 8)){
-			System.out.println("Error");
+	private String name; //Name of Part
+	//---------------------------------------------------------------------------------
+	
+	//------------------------------------Constructors---------------------------------
+	public Tags(String n){ //Constructor with name given
+		val=-1; //initialize value
+		try {
+			for(int i=0;i<lines("tags.txt");i++){ //iterate through tags txt file
+				if (getLine("tags.txt",i).equals(n)){ //if the part is in the list
+					val=i; //set value to the value of that part
+					break; //break from loop since found
+				}
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-		else{
-			for(int i=7;i>=0;i--){
-				if (temp>=Math.pow(2, i)){
-					temp-=Math.pow(2, i);
-					valBin[8-i-1]=true;
+		try {
+			if (val==-1){ //If not found
+				val=lines("tags.txt"); //value is last line number
+				try {
+					addLine("tags.txt",n); //add part to the file
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		name=n; //set part name
+		//write to file
+		convBin(); //set binary value using method convBin()
+		
+	}
+	public Tags(int v){ //find tag for value at v
+		val=v; //set val
+		try {
+			name=getLine("tags.txt",v); //get name from file
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		convBin(); //set binary
+	}
+	//---------------------------------------------------------------------------------
+	private void convBin(){ //method for setting valBin from val
+		int temp=val; //temp value holding val
+		if(temp>Math.pow(2, 8)){ //if too big to hold
+			System.out.println("Error"); //error
+		}
+		else{ //if small enough to hold
+			for(int i=7;i>=0;i--){ //iterate through powers of 2
+				if (temp>=Math.pow(2, i)){ //if greater than 2^i
+					temp-=Math.pow(2, i); //subtract that value
+					valBin[8-i-1]=true; //set that power to true (1 in binary)
 				}
 			}
 		}
 	}
-	//private static ArrayList<Integer> vals=new ArrayList<Integer>();
+	//----------------------Text Editing Methods----------------------------
 	//returns amount of lines in the file
 		public static int lines(String file) throws FileNotFoundException {
 			Scanner sc = new Scanner(new File(file));
@@ -68,74 +114,19 @@ public class Tags {
 			bufferWritter.write(s + "\n");
 			bufferWritter.close();
 		}
+		//-------------------------------------------------------------------
 
-/*	private String findLastTag(){
-		try {
-			return getLine("tags.txt",lines("tags.txt"));
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return "";
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return "";
-		}
-	}*/
-	public Tags(String n){
-		val=-1;
-		try {
-			for(int i=0;i<lines("tags.txt");i++){
-				if (getLine("tags.txt",i).equals(n)){
-					val=i;
-					break;
-				}
-			}
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		try {
-			if (val==-1){
-				val=lines("tags.txt");
-				try {
-					addLine("tags.txt",n);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		name=n;
-		//write to file
-		convBin();
-		
+		//--------------------------Accessor Methods-------------------------
+	public boolean[] getBin(){ //get binary value as boolean array
+		return (valBin); //return boolean array representing binary
 	}
-	public Tags(int v){ //find tag for value at v
-		val=v;
-		try {
-			name=getLine("tags.txt",v);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		convBin();
+	public String getName(){ //get name
+		return name; //return name
 	}
-	public String getBin(){
-		return Arrays.toString(valBin);
+	public int getVal(){ //get decimal value
+		return val; //return decimal value
 	}
-	public String getName(){
-		return name;
-	}
-	public int getVal(){
-		return val;
-	}
+	//-----------------------------------------------------
 	
 
 }
