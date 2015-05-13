@@ -51,6 +51,22 @@ public class Tag {
 		convBin(); //set binary value using method convBin()
 		
 	}
+		public void makeTag() throws IOException {
+		BufferedImage i = new BufferedImage(140, 20, BufferedImage.TYPE_INT_RGB);
+		ImgRec.fillSquare(i, 0, 0, 20, 20, Color.CYAN);
+		Color c;
+		for (int n = 20; n < 140; n += 15) {
+			if (valBin[(n - 20) / 15] == true) {
+				c = Color.BLACK;
+			} else {
+				c = Color.WHITE;
+			}
+			ImgRec.fillSquare(i, n, 0, n + 15, 20, c);
+			ImgRec.drawSquare(i, n, 0, n + 15, 20, 4, Color.RED);
+		}
+		File f = new File("tag" + val + ".png");
+		ImageIO.write(i, "PNG", f);
+	}
 	public Tag(int v){ //find tag for value at v
 		val=v; //set val
 		try {
