@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
-public class Tags {
+public class Tag {
 	//--------------------------------------Fields-------------------------------------
 	private boolean[] valBin=new boolean[8];//Binary Value constrained to decimal 0-511
 	private int val; //Decimal value
@@ -20,7 +20,7 @@ public class Tags {
 	//---------------------------------------------------------------------------------
 	
 	//------------------------------------Constructors---------------------------------
-	public Tags(String n){ //Constructor with name given
+	public Tag(String n){ //Constructor with name given
 		val=-1; //initialize value
 		try {
 			for(int i=0;i<lines("tags.txt");i++){ //iterate through tags txt file
@@ -51,7 +51,7 @@ public class Tags {
 		convBin(); //set binary value using method convBin()
 		
 	}
-	public Tags(int v){ //find tag for value at v
+	public Tag(int v){ //find tag for value at v
 		val=v; //set val
 		try {
 			name=getLine("tags.txt",v); //get name from file
