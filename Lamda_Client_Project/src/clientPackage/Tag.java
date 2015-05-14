@@ -96,6 +96,16 @@ public class Tag {
 			}
 		}
 	}
+	
+	public static int convDec(boolean[] a) {
+		int val = 0;
+		for (int n = 0; n < a.length; n++) {
+			if (a[n])
+				val += Math.pow(2, a.length - n - 1);
+		}
+		return val;
+	}
+	
 	//----------------------Text Editing Methods----------------------------
 	//returns amount of lines in the file
 		public static int lines(String file) throws FileNotFoundException {
