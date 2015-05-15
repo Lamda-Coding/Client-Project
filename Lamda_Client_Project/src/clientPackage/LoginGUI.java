@@ -22,10 +22,12 @@ public class LoginGUI extends JFrame{
 	JPanel panel=new JPanel();
 	JLabel info=new JLabel("LAMDΛ Coding");
 	JLabel log=new JLabel("Login:");
-	JTextField username=new JTextField("Username: ",0);
-	JPasswordField password=new JPasswordField("Password: ",0);
+	JLabel userlabel=new JLabel("Username: ");
+	JTextField username=new JTextField("",0);
+	JLabel passlabel=new JLabel("Password: ");
+	JPasswordField password=new JPasswordField("",0);
 	JButton submit=new JButton("Submit");
-	JLabel output=new JLabel("");
+	JLabel output=new JLabel(" ");
 	private String md5Hash(String s) throws UnsupportedEncodingException, NoSuchAlgorithmException{
 		byte[] bytesOfMessage = s.getBytes("UTF-8");
 		MessageDigest md = MessageDigest.getInstance("MD5");
@@ -40,7 +42,7 @@ public class LoginGUI extends JFrame{
 	}
 	public LoginGUI(String s){
 		super(s);
-		setSize(300,200);
+		setSize(300,175);
 		//setExtendedState(java.awt.Frame.MAXIMIZED_BOTH);
 		setResizable(true);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -52,10 +54,16 @@ public class LoginGUI extends JFrame{
 		//log.setAlignmentX(150);
 		output.setAlignmentX(Component.CENTER_ALIGNMENT);
 		submit.setAlignmentX(Component.CENTER_ALIGNMENT);
+		Box userBox = new Box(BoxLayout.LINE_AXIS);
+		Box passBox = new Box(BoxLayout.LINE_AXIS);
 		panel.add(info);
 		panel.add(log);
-		panel.add(username);
-		panel.add(password);
+		userBox.add(userlabel);
+		userBox.add(username);
+		panel.add(userBox);
+		passBox.add(passlabel);
+		passBox.add(password);
+		panel.add(passBox);
 		panel.add(submit);
 		panel.add(output);
 		submit.addActionListener(new ActionListener() {
