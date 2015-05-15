@@ -1,6 +1,7 @@
 package clientPackage;
 import java.security.*;
 import java.util.Arrays;
+import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.LayoutManager;
 import java.awt.Window;
@@ -8,11 +9,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.UnsupportedEncodingException;
 
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 public class LoginGUI extends JFrame{
@@ -20,7 +23,7 @@ public class LoginGUI extends JFrame{
 	JLabel info=new JLabel("LAMDΛ Coding");
 	JLabel log=new JLabel("Login:");
 	JTextField username=new JTextField("Username: ",0);
-	JTextField password=new JTextField("Password: ",0);
+	JPasswordField password=new JPasswordField("Password: ",0);
 	JButton submit=new JButton("Submit");
 	JLabel output=new JLabel("");
 	private String md5Hash(String s) throws UnsupportedEncodingException, NoSuchAlgorithmException{
@@ -41,12 +44,14 @@ public class LoginGUI extends JFrame{
 		//setExtendedState(java.awt.Frame.MAXIMIZED_BOTH);
 		setResizable(true);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setLocationRelativeTo(null);
 		panel.setLayout((LayoutManager) new BoxLayout(panel, BoxLayout.Y_AXIS));
 		info.setAlignmentX(Component.CENTER_ALIGNMENT);
 		//info.setAlignmxentX(150);
 		log.setAlignmentX(Component.CENTER_ALIGNMENT);
 		//log.setAlignmentX(150);
 		output.setAlignmentX(Component.CENTER_ALIGNMENT);
+		submit.setAlignmentX(Component.CENTER_ALIGNMENT);
 		panel.add(info);
 		panel.add(log);
 		panel.add(username);
