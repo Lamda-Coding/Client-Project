@@ -27,7 +27,7 @@ public class LoginGUI extends JFrame{
 	JLabel passlabel=new JLabel("Password: ");
 	JPasswordField password=new JPasswordField("",0);
 	JButton submit=new JButton("Submit");
-	JLabel output=new JLabel("");
+	JLabel output=new JLabel(" ");
 	private String md5Hash(String s) throws UnsupportedEncodingException, NoSuchAlgorithmException{
 		byte[] bytesOfMessage = s.getBytes("UTF-8");
 		MessageDigest md = MessageDigest.getInstance("MD5");
