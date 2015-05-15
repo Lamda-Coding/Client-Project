@@ -117,39 +117,60 @@ public class ImgRec {
 		int xVal = 0;
 		int yVal = 0;
 		boolean size = false;
-		for (m = 0; m < i.getHeight(); m += 5) {
-			for (n = 0; n < i.getWidth(); n += 5) {
-				x = new Color(i.getRGB(n, m));
-				if (sameColor(c, x, e)) {
-					xVal = n;
-					yVal = m;
-					if (!(xVal == i.getWidth() && yVal == i.getHeight())) {
-						region[0] = getLeft(i, xVal, yVal, c, e);
-						region[1] = getTop(i, xVal, yVal, c, e);
-						region[2] = getRight(i, xVal, yVal, c, e);
-						region[3] = getBottom(i, xVal, yVal, c, e);
-						System.out.println("actualSize: "
-								+ (region[2] - region[0])
-								* (region[3] - region[1]));
-						System.out.println("targetSize: " + i.getWidth() / 6
-								* i.getHeight() / 6);
-						size = (region[2] - region[0])
-								* (region[3] - region[1]) > (i.getWidth() / 6
-								* i.getHeight() / 6);
-						System.out.println("size: " + size);
-						if (size) {
+		//while (!size) {
+			for (m = 0; m < i.getHeight() - 5; m += 5) {
+				for (n = 0; n < i.getWidth() - 5; n += 5) {
+					x = new Color(i.getRGB(n, m));
+					//System.out.println("n and m are: " + n + " and " + m);
+					if (sameColor(c, x, e)) {
+						xVal = n;
+						yVal = m;
+						if (!(xVal == i.getWidth() && yVal == i.getHeight())) {
+							region[0] = getLeft(i, xVal, yVal, c, e);
+							region[1] = getTop(i, xVal, yVal, c, e);
+							region[2] = getRight(i, xVal, yVal, c, e);
+							region[3] = getBottom(i, xVal, yVal, c, e);
+							//System.out.println("actualSize: " + (region[2] - region[0]) * (region[3] - region[1]));
+							//System.out.println("targetSize: " + i.getWidth() / 6 * i.getHeight() / 6);
+							size = (region[2] - region[0]) * (region[3] - region[1]) > (i.getWidth() / 6 * i.getHeight() / 6);
+							//System.out.println("size: " + size);
+							if (size) {
+								m = i.getHeight();
+								n = i.getWidth();
+							}
+						} else {
+							System.out.println("nothing recognized");
 							m = i.getHeight();
 							n = i.getWidth();
 						}
-					} else {
-						System.out.println("nothing recognized");
-						m = i.getHeight();
-						n = i.getWidth();
 					}
 				}
 			}
-		}
 		return region;
+	}
+	
+	public static boolean[] readTag(BufferedImage i) {
+		int[] bounds = findRegion(i, Color.RED, 50);
+		boolean[] binSeq = new boolean[8];
+		int y = (bounds[1] + bounds[3]) / 2;
+		int a = 0;
+		boolean s = false;
+		for (int n = bounds[0]; n < bounds[2] && a < 8; n ++) {
+			System.out.println(n);
+			Color pColor =  new Color(i.getRGB(n, y));
+			i.setRGB(n, y, Color.RED.getRGB());
+			if (sameColor(pColor, Color.BLACK, 50)) {
+				binSeq[a] = true;
+				s = true;
+			} else if (sameColor(pColor, Color.WHITE, 50)) {
+				s = true;
+				binSeq[a] = false;
+			} else if (s) {
+				a++;
+				s = false;
+			}
+		}
+		return binSeq;
 	}
 
 	public static void main(String[] args) throws IOException {

@@ -18,6 +18,7 @@ import javax.imageio.ImageIO;
 
 public class Tag {
 	//--------------------------------------Fields-------------------------------------
+	private BufferedImage tagPic = new BufferedImage(140, 20, BufferedImage.TYPE_INT_RGB);
 	private boolean[] valBin=new boolean[8];//Binary Value constrained to decimal 0-511
 	private int val; //Decimal value
 	private String name; //Name of Part
@@ -55,9 +56,9 @@ public class Tag {
 		convBin(); //set binary value using method convBin()
 		
 	}
-		public void makeTag() throws IOException {
-		BufferedImage i = new BufferedImage(140, 20, BufferedImage.TYPE_INT_RGB);
-		ImgRec.fillSquare(i, 0, 0, 20, 20, Color.CYAN);
+	public void makeTag() throws IOException {
+		ImgRec.fillSquare(tagPic, 0, 0, 20, 20, Color.CYAN);
+		ImgRec.drawSquare(tagPic, 0, 0, 20, 20, 4, Color.RED);
 		Color c;
 		for (int n = 20; n < 140; n += 15) {
 			if (valBin[(n - 20) / 15] == true) {
@@ -65,12 +66,18 @@ public class Tag {
 			} else {
 				c = Color.WHITE;
 			}
-			ImgRec.fillSquare(i, n, 0, n + 15, 20, c);
-			ImgRec.drawSquare(i, n, 0, n + 15, 20, 4, Color.RED);
+			ImgRec.fillSquare(tagPic, n, 0, n + 15, 20, c);
+			ImgRec.drawSquare(tagPic, n, 0, n + 15, 20, 4, Color.RED);
 		}
 		File f = new File("tag" + val + ".png");
-		ImageIO.write(i, "PNG", f);
+		ImageIO.write(tagPic, "PNG", f);
 	}
+	
+	public void writeTag() throws IOException {
+		File f = new File("tag" + val + ".png");
+		ImageIO.write(tagPic, "PNG", f);
+	}
+	
 	public Tag(int v){ //find tag for value at v
 		val=v; //set val
 		try {
