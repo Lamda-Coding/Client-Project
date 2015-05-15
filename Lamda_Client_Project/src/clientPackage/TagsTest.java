@@ -13,7 +13,7 @@ public class TagsTest {
 		System.out.println(item2.getName());
 		System.out.println(item2.getVal());
 		System.out.println(Arrays.toString(item2.getBin()));
-		Tag item3=new Tag("part7");
+		Tag item3=new Tag("part8");
 		System.out.println(item3.getName());
 		System.out.println(item3.getVal());
 		System.out.println(Arrays.toString(item3.getBin()));
