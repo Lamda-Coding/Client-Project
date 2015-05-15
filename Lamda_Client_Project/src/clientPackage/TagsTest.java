@@ -17,7 +17,21 @@ public class TagsTest {
 		System.out.println(item3.getName());
 		System.out.println(item3.getVal());
 		System.out.println(Arrays.toString(item3.getBin()));
-
+		
+		Tag t = new Tag(144);
+		t.makeTag();
+		t.writeTag();
+		BufferedImage i = null;
+		try {
+			i = ImageIO.read(new File("tag144.png"));
+		} catch (IOException e) {
+		}
+		boolean[] a = ImgRec.readTag(i);
+		for (int n = 0; n < 8; n++) {
+			System.out.println(a[n]);
+		}
+		File f = new File("pic_test.png");
+		ImageIO.write(i, "PNG", f);	}
 	}
 
 }
