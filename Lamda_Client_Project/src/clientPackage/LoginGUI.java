@@ -89,6 +89,11 @@ public class LoginGUI extends JFrame{
 					}
 					else{
 			    		output.setText("Incorrect username and/or password");
+			    		if(output.getForeground().equals(Color.RED)){
+			    			output.setForeground(Color.BLACK);
+			    		}else{
+			    			output.setForeground(Color.RED);
+			    		}
 			    	}
 				} catch (UnsupportedEncodingException e1) {
 					// TODO Auto-generated catch block
