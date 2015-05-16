@@ -60,7 +60,7 @@ public class ImgRec {
 	}
 
 	public static int getTop(BufferedImage i, int x, int y, Color c, int e) {
-		i.setRGB(x,  y, Color.RED.getRGB());
+		i.setRGB(x, y, Color.RED.getRGB());
 		Color a = new Color(i.getRGB(x, y));
 		if (y > 0 && sameColor(a, c, e)) {
 			return getTop(i, x, y - 1, c, e);
@@ -69,7 +69,7 @@ public class ImgRec {
 	}
 
 	public static int getBottom(BufferedImage i, int x, int y, Color c, int e) {
-		i.setRGB(x,  y, Color.RED.getRGB());
+		i.setRGB(x, y, Color.RED.getRGB());
 		Color a = new Color(i.getRGB(x, y));
 		Color z;
 		if (x + 5 < i.getWidth()) {
@@ -82,13 +82,18 @@ public class ImgRec {
 		} else if (sameColor(z, c, e)) {
 			return getBottom(i, x + 1, y, c, e);
 		}
-		return x;
+		return y;
 	}
 
 	public static int getLeft(BufferedImage i, int x, int y, Color c, int e) {
-		i.setRGB(x,  y, Color.RED.getRGB());
+		i.setRGB(x, y, Color.RED.getRGB());
 		Color a = new Color(i.getRGB(x, y));
-		Color z = new Color(i.getRGB(x, y + 5));
+		Color z;
+		if (y + 5 < i.getHeight()) {
+			z = new Color(i.getRGB(x, y + 5));
+		} else {
+			z = Color.BLACK;
+		}
 		if (x > 0 && sameColor(a, c, e)) {
 			return getLeft(i, x - 1, y, c, e);
 		} else if (sameColor(z, c, e)) {
@@ -98,12 +103,19 @@ public class ImgRec {
 	}
 
 	public static int getRight(BufferedImage i, int x, int y, Color c, int e) {
-		i.setRGB(x,  y, c.getRGB());
+		i.setRGB(x, y, c.getRGB());
 		Color a = new Color(i.getRGB(x, y));
-		Color z = new Color(i.getRGB(x, y + 5));
+		Color z;
+		if (y + 5 < i.getHeight()) {
+			z = new Color(i.getRGB(x, y + 5));
+		} else{
+			z = Color.BLACK;
+		}
 		if (x < i.getWidth() - 1 && sameColor(a, c, e)) {
+			System.out.println("a");
 			return getRight(i, x + 1, y, c, e);
 		} else if (sameColor(z, c, e)) {
+			System.out.println("b");
 			return getRight(i, x, y + 1, c, e);
 		}
 		return x;
@@ -125,7 +137,7 @@ public class ImgRec {
 					if (sameColor(c, x, e)) {
 						xVal = n;
 						yVal = m;
-						if (!(xVal == i.getWidth() && yVal == i.getHeight())) {
+						if (xVal <= i.getWidth() && yVal <= i.getHeight()) {
 							region[0] = getLeft(i, xVal, yVal, c, e);
 							region[1] = getTop(i, xVal, yVal, c, e);
 							region[2] = getRight(i, xVal, yVal, c, e);
@@ -149,6 +161,8 @@ public class ImgRec {
 		return region;
 	}
 	
+	//TODO
+	//goes out of bounds for some reason
 	public static boolean[] readTag(BufferedImage i) {
 		int[] bounds = findRegion(i, Color.RED, 50);
 		boolean[] binSeq = new boolean[8];
@@ -156,7 +170,8 @@ public class ImgRec {
 		int a = 0;
 		boolean s = false;
 		for (int n = bounds[0]; n < bounds[2] && a < 8; n ++) {
-			System.out.println(n);
+			System.out.println(n + " " + y);
+			System.out.println(i.getHeight());
 			Color pColor =  new Color(i.getRGB(n, y));
 			i.setRGB(n, y, Color.RED.getRGB());
 			if (sameColor(pColor, Color.BLACK, 50)) {
@@ -176,10 +191,11 @@ public class ImgRec {
 	public static void main(String[] args) throws IOException {
 		BufferedImage i = null;
 		try {
-			i = ImageIO.read(new File("phonepic.jpg"));
+			i = ImageIO.read(new File("tag144.png"));
 		} catch (IOException e) {
 		}
-		Color c = new Color(99, 143, 87);
+		//Color c = new Color(99, 143, 87);
+		Color c = Color.RED;
 		System.out.println("width: " + i.getWidth() + "  height: "
 				+ i.getHeight());
 		System.out.println("c: " + (c.getRed() + c.getGreen() + c.getBlue()));
@@ -187,11 +203,8 @@ public class ImgRec {
 		for (int n : region) {
 			System.out.println(n);
 		}
-		//drawSquare(i, region[0], region[1], region[2], region[3], 5, Color.RED);
 		File f = new File("pic_test.png");
 		ImageIO.write(i, "PNG", f);
 	}
-	
-	//HI AZEEM
 
 }
