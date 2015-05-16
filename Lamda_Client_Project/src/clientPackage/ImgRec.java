@@ -112,10 +112,8 @@ public class ImgRec {
 			z = Color.BLACK;
 		}
 		if (x < i.getWidth() - 1 && sameColor(a, c, e)) {
-			System.out.println("a");
 			return getRight(i, x + 1, y, c, e);
 		} else if (sameColor(z, c, e)) {
-			System.out.println("b");
 			return getRight(i, x, y + 1, c, e);
 		}
 		return x;
@@ -161,8 +159,6 @@ public class ImgRec {
 		return region;
 	}
 	
-	//TODO
-	//goes out of bounds for some reason
 	public static boolean[] readTag(BufferedImage i) {
 		int[] bounds = findRegion(i, Color.RED, 50);
 		boolean[] binSeq = new boolean[8];
@@ -170,10 +166,10 @@ public class ImgRec {
 		int a = 0;
 		boolean s = false;
 		for (int n = bounds[0]; n < bounds[2] && a < 8; n ++) {
-			System.out.println(n + " " + y);
-			System.out.println(i.getHeight());
+			//System.out.println(n + " " + y);
+			//System.out.println(i.getHeight());
 			Color pColor =  new Color(i.getRGB(n, y));
-			i.setRGB(n, y, Color.RED.getRGB());
+			//i.setRGB(n, y, Color.RED.getRGB());
 			if (sameColor(pColor, Color.BLACK, 50)) {
 				binSeq[a] = true;
 				s = true;

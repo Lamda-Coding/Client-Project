@@ -10,12 +10,12 @@ import javax.imageio.ImageIO;
 public class TagsTest {
 
 	public static void main(String[] args) throws IOException {
-		Tag t = new Tag(144);
+		Tag t = new Tag(182);
 		t.makeTag();
 		t.writeTag();
 		BufferedImage i = null;
 		try {
-			i = ImageIO.read(new File("tag144.png"));
+			i = ImageIO.read(new File("tag182.png"));
 		} catch (IOException e) {
 		}
 		boolean[] a = ImgRec.readTag(i);

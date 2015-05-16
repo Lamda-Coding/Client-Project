@@ -57,8 +57,8 @@ public class Tag {
 		
 	}
 	public void makeTag() throws IOException {
-		ImgRec.fillSquare(tagPic, 0, 0, 20, 20, Color.CYAN);
-		ImgRec.drawSquare(tagPic, 0, 0, 20, 20, 4, Color.RED);
+		ImgRec.fillSquare(tagPic, 0, 0, 19, 19, Color.CYAN);
+		ImgRec.drawSquare(tagPic, 0, 0, 19, 19, 4, Color.RED);
 		Color c;
 		for (int n = 20; n < 140; n += 15) {
 			if (valBin[(n - 20) / 15] == true) {
@@ -66,8 +66,8 @@ public class Tag {
 			} else {
 				c = Color.WHITE;
 			}
-			ImgRec.fillSquare(tagPic, n, 0, n + 15, 20, c);
-			ImgRec.drawSquare(tagPic, n, 0, n + 15, 20, 4, Color.RED);
+			ImgRec.fillSquare(tagPic, n, 0, n + 15, 19, c);
+			ImgRec.drawSquare(tagPic, n, 0, n + 15, 19, 4, Color.RED);
 		}
 		File f = new File("tag" + val + ".png");
 		ImageIO.write(tagPic, "PNG", f);
