@@ -2,6 +2,7 @@ package clientPackage;
 import java.security.*;
 import java.util.Arrays;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.LayoutManager;
 import java.awt.Window;
@@ -21,11 +22,11 @@ import javax.swing.JTextField;
 
 public class LoginGUI extends JFrame{
 	JPanel panel=new JPanel();
-	JLabel info=new JLabel("   LAMDΛ Coding");
+	JLabel info=new JLabel(" LAMDΛ Coding");
 	JLabel log=new JLabel("Login:");
-	JLabel userlabel=new JLabel("Username: ");
+	JLabel userlabel=new JLabel("Username:");
 	JTextField username=new JTextField("",0);
-	JLabel passlabel=new JLabel("Password: ");
+	JLabel passlabel=new JLabel("Password:");
 	JPasswordField password=new JPasswordField("",0);
 	JButton submit=new JButton("Submit");
 	JLabel output=new JLabel(" ");
@@ -46,13 +47,13 @@ public class LoginGUI extends JFrame{
 		
 		super(s);
 		setSize(300,225);
+		setBackground(Color.WHITE);
 		setIconImage(img.getImage());
 		//setExtendedState(java.awt.Frame.MAXIMIZED_BOTH);
 		setResizable(true);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		panel.setLayout((LayoutManager) new BoxLayout(panel, BoxLayout.Y_AXIS));
-		info.setAlignmentX(Component.CENTER_ALIGNMENT);
 		//info.setAlignmxentX(150);
 		log.setAlignmentX(Component.CENTER_ALIGNMENT);
 		//log.setAlignmentX(150);
@@ -61,6 +62,7 @@ public class LoginGUI extends JFrame{
 		Box userBox = new Box(BoxLayout.LINE_AXIS);
 		Box passBox = new Box(BoxLayout.LINE_AXIS);
 		Box infoBox=new Box(BoxLayout.LINE_AXIS);
+		infoBox.setAlignmentX(Component.CENTER_ALIGNMENT);
 		infoBox.add(new JLabel(new ImageIcon("lamda.png")));
 		infoBox.add(info);
 		panel.add(infoBox);
