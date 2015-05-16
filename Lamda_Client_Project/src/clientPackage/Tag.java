@@ -67,7 +67,7 @@ public class Tag {
 				c = Color.WHITE;
 			}
 			ImgRec.fillSquare(tagPic, n, 0, n + 15, 19, c);
-			ImgRec.drawSquare(tagPic, n, 0, n + 15, 19, 4, Color.RED);
+			ImgRec.drawSquare(tagPic, n - 1, 0, n + 14, 19, 4, Color.RED);
 		}
 		File f = new File("tag" + val + ".png");
 		ImageIO.write(tagPic, "PNG", f);
