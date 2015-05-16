@@ -8,13 +8,13 @@ import org.apache.poi.ss.util.WorkbookUtil;
 
 import java.io.FileOutputStream;
 
-public class File {
+public class ExcelFile {
 	private String name;
 	public Workbook workbook;
 	public Sheet sheet;
 	
 	
-	public File(String n){
+	public ExcelFile(String n){
 		name = n;
 		workbook = new HSSFWorkbook();
 		try{

@@ -1,10 +1,15 @@
 package clientPackage;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
+
+import javax.imageio.ImageIO;
 
 public class TagsTest {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		Tag item1=new Tag(1);
 		System.out.println(item1.getName());
 		System.out.println(item1.getVal());
@@ -34,4 +39,3 @@ public class TagsTest {
 		ImageIO.write(i, "PNG", f);	}
 	}
 
-}
