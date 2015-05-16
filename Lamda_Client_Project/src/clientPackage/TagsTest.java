@@ -10,6 +10,7 @@ import javax.imageio.ImageIO;
 public class TagsTest {
 
 	public static void main(String[] args) throws IOException {
+		/*
 		Tag t = new Tag(182);
 		t.makeTag();
 		t.writeTag();
@@ -25,5 +26,9 @@ public class TagsTest {
 		System.out.println(Tag.convDec(a));
 		File f = new File("pic_test.png");
 		ImageIO.write(i, "PNG", f);
+		*/
+		
+		PieceType abc = new PieceType("small piece");
+		abc.getTag();
 	}
 }
