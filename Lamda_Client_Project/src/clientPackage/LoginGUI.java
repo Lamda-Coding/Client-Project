@@ -11,6 +11,7 @@ import java.io.UnsupportedEncodingException;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -20,7 +21,7 @@ import javax.swing.JTextField;
 
 public class LoginGUI extends JFrame{
 	JPanel panel=new JPanel();
-	JLabel info=new JLabel("LAMDΛ Coding");
+	JLabel info=new JLabel("   LAMDΛ Coding");
 	JLabel log=new JLabel("Login:");
 	JLabel userlabel=new JLabel("Username: ");
 	JTextField username=new JTextField("",0);
@@ -28,6 +29,7 @@ public class LoginGUI extends JFrame{
 	JPasswordField password=new JPasswordField("",0);
 	JButton submit=new JButton("Submit");
 	JLabel output=new JLabel(" ");
+	ImageIcon img = new ImageIcon("lamda.png");
 	private String md5Hash(String s) throws UnsupportedEncodingException, NoSuchAlgorithmException{
 		byte[] bytesOfMessage = s.getBytes("UTF-8");
 		MessageDigest md = MessageDigest.getInstance("MD5");
@@ -41,8 +43,10 @@ public class LoginGUI extends JFrame{
 
 	}
 	public LoginGUI(String s){
+		
 		super(s);
-		setSize(300,175);
+		setSize(300,225);
+		setIconImage(img.getImage());
 		//setExtendedState(java.awt.Frame.MAXIMIZED_BOTH);
 		setResizable(true);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -56,7 +60,10 @@ public class LoginGUI extends JFrame{
 		submit.setAlignmentX(Component.CENTER_ALIGNMENT);
 		Box userBox = new Box(BoxLayout.LINE_AXIS);
 		Box passBox = new Box(BoxLayout.LINE_AXIS);
-		panel.add(info);
+		Box infoBox=new Box(BoxLayout.LINE_AXIS);
+		infoBox.add(new JLabel(new ImageIcon("lamda.png")));
+		infoBox.add(info);
+		panel.add(infoBox);
 		panel.add(log);
 		userBox.add(userlabel);
 		userBox.add(username);
