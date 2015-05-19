@@ -51,4 +51,20 @@ public class PieceType {
 		storage = a;
 	}
 	
+	public int getTotal() {
+		return total;
+	}
+	
+	public int getStorage() {
+		return storage;
+	}
+	
+	public int getCheckedOut() {
+		return checkedOut;
+	}
+	
+	public int getLost() {
+		return lost;
+	}
+	
 }
