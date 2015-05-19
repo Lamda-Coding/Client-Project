@@ -159,8 +159,68 @@ public class ImgRec {
 		return region;
 	}
 	
+	public static int[] findRegionAlt(BufferedImage i, Color c, int e, int[] startCoords) {
+		int[] region = new int[4];
+		Color x;
+		int n = 0;
+		int m = 0;
+		int xVal = 0;
+		int yVal = 0;
+		boolean size = false;
+		//while (!size) {
+			for (m = 0; m < i.getHeight() - 5; m += 5) {
+				for (n = 0; n < i.getWidth() - 5; n += 5) {
+					x = new Color(i.getRGB(n, m));
+					//System.out.println("n and m are: " + n + " and " + m);
+					if (sameColor(c, x, e)) {
+						xVal = n;
+						yVal = m;
+						if (xVal <= i.getWidth() && yVal <= i.getHeight()) {
+							region[0] = getLeft(i, xVal, yVal, c, e);
+							region[1] = getTop(i, xVal, yVal, c, e);
+							region[2] = getRight(i, xVal, yVal, c, e);
+							region[3] = getBottom(i, xVal, yVal, c, e);
+							//System.out.println("actualSize: " + (region[2] - region[0]) * (region[3] - region[1]));
+							//System.out.println("targetSize: " + i.getWidth() / 6 * i.getHeight() / 6);
+							size = (region[2] - region[0]) * (region[3] - region[1]) > (i.getWidth() / 6 * i.getHeight() / 6);
+							//System.out.println("size: " + size);
+							if (size) {
+								m = i.getHeight();
+								n = i.getWidth();
+							}
+						} else {
+							//System.out.println("nothing recognized");
+							m = i.getHeight();
+							n = i.getWidth();
+						}
+					}
+				}
+			}
+		return region;
+	}
+	
+	public static int[] findTag(BufferedImage i) {
+		Color c;
+		int[] cyanPix = new int[2];
+		for (int n = 0; n < i.getWidth(); n += 5) {
+			for (int m = 0; m < i.getHeight(); m += 5) {
+				c = new Color(i.getRGB(n, m));
+				if (sameColor(c, Color.CYAN, 50)) {
+					cyanPix[0] = n;
+					cyanPix[1] = m;
+				}
+			}
+		}
+		for (int m = cyanPix[1]; m > 0; m--) {
+			if (sameColor(new Color(i.getRGB(cyanPix[0], cyanPix[1])), Color.RED, 50)) {
+				//TODO
+			}
+		}
+		
+	}
+	
 	public static boolean[] readTag(BufferedImage i) {
-		int[] bounds = findRegion(i, Color.RED, 50);
+		int[] bounds = findTag(i);
 		boolean[] binSeq = new boolean[8];
 		int y = (bounds[1] + bounds[3]) / 2;
 		int a = 0;

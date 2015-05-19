@@ -60,8 +60,8 @@ public class Tag {
 		name = n; // set part name
 		// write to file
 		convBin(); // set binary value using method convBin()
-		System.out.println(val);
-		System.out.println(lines("tags.txt"));
+		//System.out.println(val);
+		//System.out.println(lines("tags.txt"));
 	}
 
 	public void makeTag() throws IOException {

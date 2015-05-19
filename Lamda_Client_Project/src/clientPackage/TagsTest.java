@@ -10,8 +10,12 @@ import javax.imageio.ImageIO;
 public class TagsTest {
 
 	public static void main(String[] args) throws IOException {
-		PieceType Azeem = new PieceType("Azeem");
+		PieceType Azeem = new PieceType("Jack");
 		Azeem.getTag();
-		Azeem.getLost();
+		Azeem.setTotal(6);
+		Azeem.losePiece();
+		Azeem.losePiece();
+		System.out.println(Azeem.getTotal());
+		System.out.println(Azeem.getLost());
 	}
 }

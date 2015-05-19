@@ -42,7 +42,7 @@ public class PieceType {
 		lost--;
 	}
 	
-	public void setAmount(int a) {
+	public void setTotal(int a) {
 		total = a;
 		storage = a;
 	}
