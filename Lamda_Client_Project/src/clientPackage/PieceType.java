@@ -17,10 +17,6 @@ public class PieceType {
 		tag = new Tag(type);
 	}
 	
-	public void getTag() throws IOException {
-		tag.makeTag(); 
-	}
-	
 	public void addPiece() {
 		total++;
 		storage++;
@@ -49,6 +45,10 @@ public class PieceType {
 	public void setAmount(int a) {
 		total = a;
 		storage = a;
+	}
+	
+	public void getTag() throws IOException {
+		tag.makeTag(); 
 	}
 	
 	public int getTotal() {
