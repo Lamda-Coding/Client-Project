@@ -31,6 +31,10 @@ public class LoginGUI extends JFrame{
 	JButton submit=new JButton("Submit");
 	JLabel output=new JLabel(" ");
 	ImageIcon img = new ImageIcon("lamda.png");
+	JLabel spacing1=new JLabel(" ");
+	JLabel spacing2=new JLabel(" ");
+	JLabel spacing3=new JLabel(" ");
+	JLabel spacing4=new JLabel(" ");
 	private String md5Hash(String s) throws UnsupportedEncodingException, NoSuchAlgorithmException{
 		byte[] bytesOfMessage = s.getBytes("UTF-8");
 		MessageDigest md = MessageDigest.getInstance("MD5");
@@ -63,15 +67,19 @@ public class LoginGUI extends JFrame{
 		Box passBox = new Box(BoxLayout.LINE_AXIS);
 		Box infoBox=new Box(BoxLayout.LINE_AXIS);
 		infoBox.setAlignmentX(Component.CENTER_ALIGNMENT);
-		infoBox.add(new JLabel(new ImageIcon("lamda.png")));
-		infoBox.add(info);
+		infoBox.add(new JLabel(new ImageIcon("FullLogo.png")));
+		//infoBox.add(info);
 		panel.add(infoBox);
 		panel.add(log);
+		userBox.add(spacing1);
 		userBox.add(userlabel);
 		userBox.add(username);
+		userBox.add(spacing2);
 		panel.add(userBox);
+		passBox.add(spacing3);
 		passBox.add(passlabel);
 		passBox.add(password);
+		passBox.add(spacing4);
 		panel.add(passBox);
 		panel.add(submit);
 		panel.add(output);
