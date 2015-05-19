@@ -18,7 +18,7 @@ public class PieceType {
 	}
 	
 	public void getTag() throws IOException {
-		tag.makeTag();
+		tag.makeTag(); 
 	}
 	
 	public void addPiece() {
