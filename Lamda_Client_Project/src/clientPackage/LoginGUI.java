@@ -44,10 +44,10 @@ public class LoginGUI extends JFrame{
 	
 
 	public static void main(String[] args) throws UnsupportedEncodingException, NoSuchAlgorithmException {
-		LoginGUI loginGUI=new LoginGUI("VEX Inventory Application");
+		LoginGUI loginGUI=new LoginGUI("VEX Inventory Application",args);
 
 	}
-	public LoginGUI(String s){
+	public LoginGUI(String s,final String[] args){
 		
 		super(s);
 		setSize(300,225);
@@ -93,6 +93,7 @@ public class LoginGUI extends JFrame{
 					if(md5Hash(user).equals("[20, -60, -80, 107, -126, 78, -59, -109, 35, -109, 98, 81, 127, 83, -117, 41]")&&md5Hash(pass).equals("[95, 77, -52, 59, 90, -89, 101, -42, 29, -125, 39, -34, -72, -126, -49, -103]")){
 						//username=username;password=password
 						dispose();
+						FrameClassV5.main(args);
 						//run next part of program
 					}
 					else{
