@@ -10,12 +10,15 @@ import javax.imageio.ImageIO;
 public class TagsTest {
 
 	public static void main(String[] args) throws IOException {
-		PieceType Azeem = new PieceType("Jack");
-		Azeem.getTag();
-		Azeem.setTotal(6);
-		Azeem.losePiece();
-		Azeem.losePiece();
-		System.out.println(Azeem.getTotal());
-		System.out.println(Azeem.getLost());
+		BufferedImage i = null;
+		try {
+			i = ImageIO.read(new File("tag.jpg"));
+		} catch (IOException e) {
+		}
+		boolean[] coords = ImgRec.readTag(i);
+		int a = Tag.convDec(coords);
+		System.out.println(a);
+		File f = new File("pic_test.png");
+		ImageIO.write(i, "PNG", f);
 	}
 }

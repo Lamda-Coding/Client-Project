@@ -60,7 +60,6 @@ public class ImgRec {
 	}
 
 	public static int getTop(BufferedImage i, int x, int y, Color c, int e) {
-		i.setRGB(x, y, Color.RED.getRGB());
 		Color a = new Color(i.getRGB(x, y));
 		if (y > 0 && sameColor(a, c, e)) {
 			return getTop(i, x, y - 1, c, e);
@@ -69,7 +68,6 @@ public class ImgRec {
 	}
 
 	public static int getBottom(BufferedImage i, int x, int y, Color c, int e) {
-		i.setRGB(x, y, Color.RED.getRGB());
 		Color a = new Color(i.getRGB(x, y));
 		Color z;
 		if (x + 5 < i.getWidth()) {
@@ -86,7 +84,6 @@ public class ImgRec {
 	}
 
 	public static int getLeft(BufferedImage i, int x, int y, Color c, int e) {
-		i.setRGB(x, y, Color.RED.getRGB());
 		Color a = new Color(i.getRGB(x, y));
 		Color z;
 		if (y + 5 < i.getHeight()) {
@@ -103,7 +100,6 @@ public class ImgRec {
 	}
 
 	public static int getRight(BufferedImage i, int x, int y, Color c, int e) {
-		i.setRGB(x, y, c.getRGB());
 		Color a = new Color(i.getRGB(x, y));
 		Color z;
 		if (y + 5 < i.getHeight()) {
@@ -205,18 +201,46 @@ public class ImgRec {
 		for (int n = 0; n < i.getWidth(); n += 5) {
 			for (int m = 0; m < i.getHeight(); m += 5) {
 				c = new Color(i.getRGB(n, m));
-				if (sameColor(c, Color.CYAN, 50)) {
+				if (sameColor(c, Color.GREEN, 150)) {
 					cyanPix[0] = n;
 					cyanPix[1] = m;
 				}
 			}
 		}
-		for (int m = cyanPix[1]; m > 0; m--) {
-			if (sameColor(new Color(i.getRGB(cyanPix[0], cyanPix[1])), Color.RED, 50)) {
-				//TODO
+		
+		System.out.println("found it: " + cyanPix[0] + " " + cyanPix[1]);
+		drawLine(i, 0, 0, cyanPix[0], cyanPix[1], 5, Color.BLUE);
+		
+		int[] redPix = {cyanPix[0], cyanPix[1]};
+		/*boolean y = true;
+		while (y && redPix[1] > 0) {
+			if (!sameColor(new Color(i.getRGB(redPix[0], redPix[1])), Color.RED, 100)) {
+				redPix[1]--;
+				System.out.println("nope");
+			}
+			else {
+				y = false;
+				System.out.println("found red");
 			}
 		}
+		boolean z = true;
+		while (z && redPix[0] > 0) {
+			if (sameColor(new Color(i.getRGB(redPix[0], redPix[1])), Color.RED, 100)) {
+				redPix[0]--;
+				System.out.println("nope");
+			}
+			else {
+				z = false;
+				System.out.println("found red");
+			}
+		}*/
 		
+		redPix[1] = getLeft(i, cyanPix[0], cyanPix[1], Color.RED, 100);
+		redPix[0] = getRight(i, cyanPix[0], redPix[1], Color.WHITE, 20) - 1;
+		
+		drawLine(i, redPix[0], redPix[1], cyanPix[0], cyanPix[1], 5, Color.BLUE);
+		
+		return findRegionAlt(i, Color.RED, 100, redPix);
 	}
 	
 	public static boolean[] readTag(BufferedImage i) {
