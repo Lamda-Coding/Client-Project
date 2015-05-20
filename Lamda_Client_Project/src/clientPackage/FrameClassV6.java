@@ -1,15 +1,16 @@
-package clientPackage;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.swing.*;
 import javax.swing.table.*;
 
 
-public class FrameClassV5 extends JFrame {
+public class FrameClassV6 extends JFrame {
 	JTable table;
 	public static boolean yesno = false;
-	public FrameClassV5() {
+	public FrameClassV6() throws IOException {
 		// initializes the frame and two panels 
 		JFrame frame = new JFrame();
 		JPanel tablePanel = new JPanel();
@@ -31,16 +32,35 @@ public class FrameClassV5 extends JFrame {
 		int x = (dim.width-w)/2;
 		int y = (dim.height-h)/2;
 		// Initializes the table containing each of the values
-		Object columnNames[] = { "Item", "Quantity", "Check In (+1)", "Check Out (-1)" };
-		Object rowData[][] = { { "Item 1", 0, "+", "-" },
-		        			   { "Item 2", 0, "+", "-" }, 
-							   { "Item 3", 0, "+", "-" } };
+		ExcelFile f = new ExcelFile("Inventory.xls");
+		ArrayList<ArrayList<String>> data = f.readAll();
+		System.out.println(data);
+		Object columnNames[] = new Object[data.get(0).size()+2];
+		for (int i = 0; i<data.get(0).size(); i++){
+			columnNames[i] = data.get(0).get(i);
+		}
+		columnNames[data.get(0).size()] = "Check In (+1)";
+		columnNames[data.get(0).size()+1] = "Check Out (-1)";
+		
+		Object rowData[][] = new Object[data.get(0).size()+2][data.size()];
+		
+		for (int i = 0; i<data.size(); i++){
+			for (int j = 0; j<data.get(0).size(); j++){
+				rowData[i][j] = data.get(0).get(i);
+			}
+		}
+		for (int i = data.get(0).size(); i<rowData.length;i++){
+			
+		}
+//		Object rowData[][] = { { "Item 1", 0, 128, "+", "-" },
+//		        			   { "Item 1", 0, 128, "+", "-" }, 
+//							   { "Item 1", 0, 128, "+", "-"  } };
 	    JTable table = new JTable(rowData, columnNames);
 	    // Renders the last two columns as buttons
-	    table.getColumn("Check In (+1)").setCellRenderer(new ButtonRenderer5());
-	    table.getColumn("Check In (+1)").setCellEditor(new ButtonEditor5(new JCheckBox()));
-	    table.getColumn("Check Out (-1)").setCellRenderer(new ButtonRenderer5());
-	    table.getColumn("Check Out (-1)").setCellEditor(new ButtonEditor5(new JCheckBox()));
+	    table.getColumn("Check In (+1)").setCellRenderer(new ButtonRenderer6());
+	    table.getColumn("Check In (+1)").setCellEditor(new ButtonEditor6(new JCheckBox()));
+	    table.getColumn("Check Out (-1)").setCellRenderer(new ButtonRenderer6());
+	    table.getColumn("Check Out (-1)").setCellEditor(new ButtonEditor6(new JCheckBox()));
 	    JScrollPane scrollPane = new JScrollPane(table);
 	    tablePanel.add(scrollPane, BorderLayout.CENTER);	//creates a panel containing the table
 	    //creates some button without a current use
@@ -49,7 +69,7 @@ public class FrameClassV5 extends JFrame {
 	    buttonPanel.add(btnAdd);
 	    buttonPanel.add(btnSave);
 	 // adds the panels to the frame and sets it to be visible
-		frame.setSize(550, 550);
+		frame.setSize(660, 660);
 	    frame.getContentPane().add(tablePanel, BorderLayout.CENTER);
 	    frame.getContentPane().add(buttonPanel, BorderLayout.SOUTH);
 	    //creates a menubar that allows for easy exit
@@ -73,9 +93,10 @@ public class FrameClassV5 extends JFrame {
 		}
 	/**
 	 * @param args
+	 * @throws IOException 
 	 */
-	public static void main(String[] args) {
-		FrameClassV5 frame = new FrameClassV5();
+	public static void main(String[] args) throws IOException {
+		FrameClassV6 frame = new FrameClassV6();
 	    frame.addWindowListener(new WindowAdapter() {
 	      public void windowClosing(WindowEvent e) {
 	        System.exit(0);
@@ -88,8 +109,8 @@ public class FrameClassV5 extends JFrame {
 
 //The next several classes render and edit the buttons contained in the tables using the specific mouse click, and record the location of 
 //the mouse click relative to the table by storing the row and column of the click.
-class ButtonRenderer5 extends JButton implements TableCellRenderer {
-	  public ButtonRenderer5() {
+class ButtonRenderer6 extends JButton implements TableCellRenderer {
+	  public ButtonRenderer6() {
 	    setOpaque(true);
 	  }
 
@@ -109,12 +130,12 @@ class ButtonRenderer5 extends JButton implements TableCellRenderer {
 	    
 	  }
 	}
-class ButtonEditor5 extends DefaultCellEditor {
+class ButtonEditor6 extends DefaultCellEditor {
 	  protected JButton button;
 	  private String label;
 	  
 	  private boolean isPushed;
-	  public ButtonEditor5(JCheckBox checkBox) {
+	  public ButtonEditor6(JCheckBox checkBox) {
 	    super(checkBox);
 	    button = new JButton();
 	    button.setOpaque(true);
@@ -167,4 +188,3 @@ class ButtonEditor5 extends DefaultCellEditor {
 		  super.fireEditingStopped();
 	  }
 	}
-
