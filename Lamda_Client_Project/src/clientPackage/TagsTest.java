@@ -1,5 +1,6 @@
 package clientPackage;
 
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Arrays;
@@ -20,5 +21,6 @@ public class TagsTest {
 		System.out.println(a);
 		File f = new File("pic_test.png");
 		ImageIO.write(i, "PNG", f);
+
 	}
 }

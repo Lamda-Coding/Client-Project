@@ -60,16 +60,32 @@ public class ImgRec {
 	}
 	
 	public static int getRegionColor(BufferedImage i, int x, int y) {
-		int avgColor = 0;
-		for (int n = 0; n < 9; n++) {
-			avgColor += i.getRGB(x, y);
+		float avgRed = 0;
+		float avgBlue = 0;
+		float avgGreen = 0;
+		int loops = 0;
+		Color c;
+		for (int n = 0; n < 3; n++) {
+			for (int m = 0; m < 3;  m++) {
+				if (x - m + 1  >= 0 && x - m + 1 < i.getWidth() && y - n + 1 >= 0 && y - n + 1 < i.getHeight()) {
+					//i.setRGB(x - m + 1, y - n + 1, Color.RED.getRGB());
+					c = new Color(i.getRGB(x - m + 1, y - n + 1));
+					avgRed += c.getRed();
+					avgBlue += c.getBlue();
+					avgGreen += c.getGreen();
+					loops++;
+				}
+			}
 		}
-		avgColor /= 9;
+		avgRed /= loops;
+		avgBlue /= loops;
+		avgGreen /= loops;
+		int avgColor = (new Color((int)avgRed, (int)avgGreen, (int)avgBlue)).getRGB();
 		return avgColor;
 	}
 
 	public static int getTop(BufferedImage i, int x, int y, Color c, int e) {
-		Color a = new Color(i.getRGB(x, y));
+		Color a = new Color(getRegionColor(i, x, y));
 		if (y > 0 && sameColor(a, c, e)) {
 			return getTop(i, x, y - 1, c, e);
 		}
@@ -77,7 +93,7 @@ public class ImgRec {
 	}
 
 	public static int getBottom(BufferedImage i, int x, int y, Color c, int e) {
-		Color a = new Color(i.getRGB(x, y));
+		Color a = new Color(getRegionColor(i, x, y));
 		Color z;
 		if (x + 5 < i.getWidth()) {
 			z = new Color(i.getRGB(x + 5, y));	
@@ -93,7 +109,7 @@ public class ImgRec {
 	}
 
 	public static int getLeft(BufferedImage i, int x, int y, Color c, int e) {
-		Color a = new Color(i.getRGB(x, y));
+		Color a = new Color(getRegionColor(i, x, y));
 		Color z;
 		if (y + 5 < i.getHeight()) {
 			z = new Color(i.getRGB(x, y + 5));
@@ -109,8 +125,7 @@ public class ImgRec {
 	}
 
 	public static int getRight(BufferedImage i, int x, int y, Color c, int e) {
-		System.out.println("right");
-		Color a = new Color(i.getRGB(x, y));
+		Color a = new Color(getRegionColor(i, x, y));
 		Color z;
 		if (y + 5 < i.getHeight()) {
 			z = new Color(i.getRGB(x, y + 5));
@@ -207,56 +222,30 @@ public class ImgRec {
 	
 	public static int[] findTag(BufferedImage i) {
 		Color c;
-		int[] cyanPix = new int[2];
+		int[] cyanPixA = new int[2];
+		int[] cyanPixB = new int[2];
+		boolean first = true;
 		LocA:
 		for (int n = 0; n < i.getWidth(); n += 5) {
 			for (int m = 0; m < i.getHeight(); m += 5) {
 				c = new Color(i.getRGB(n, m));
-				if (sameColor(c, new Color(20, 120, 160), 50)) {
-					cyanPix[0] = n;
-					cyanPix[1] = m;
+				if (sameColor(c, new Color(getRegionColor(i, n, m)), 100) && first) {
+					cyanPixA[0] = n;
+					cyanPixA[1] = m;
+					first = false;
 					break LocA;
+				}
+				else if(sameColor(c, new Color(getRegionColor(i, n, m)), 100)) {
+					cyanPixB[0] = n;
+					cyanPixB[1] = m;
 				}
 			}
 		}
-		
-		System.out.println("found it: " + cyanPix[0] + " " + cyanPix[1]);
-		drawLine(i, 0, 0, cyanPix[0], cyanPix[1], 5, Color.GREEN);
-		
-		int[] redPix = {cyanPix[0], cyanPix[1]};
-		
-		/*boolean y = true;
-		while (y && redPix[1] > 0) {
-			if (!sameColor(new Color(i.getRGB(redPix[0], redPix[1])), Color.RED, 100)) {
-				redPix[1]--;
-				System.out.println("nope");
-			}
-			else {
-				y = false;
-				System.out.println("found red");
-			}
-		}
-		boolean z = true;
-		while (z && redPix[0] > 0) {
-			if (sameColor(new Color(i.getRGB(redPix[0], redPix[1])), Color.RED, 100)) {
-				redPix[0]--;
-				System.out.println("nope");
-			}
-			else {
-				z = false;
-				System.out.println("found red");
-			}
-		}*/
-		
-		redPix[1] = getTop(i, cyanPix[0], cyanPix[1], new Color(200, 200, 200), 30);
-		
-		drawLine(i, redPix[0], redPix[1], cyanPix[0], cyanPix[1], 5, Color.GREEN);
-		
-		redPix[0] = getRight(i, cyanPix[0], redPix[1], new Color(200, 200, 200), 30) - 1;
-		
-		drawLine(i, redPix[0], redPix[1], cyanPix[0], cyanPix[1], 5, Color.GREEN);
-		
-		return findRegionAlt(i, Color.RED, 100, redPix);
+		System.out.println("found it: " + cyanPixA[0] + " " + cyanPixA[1]);
+		System.out.println("and: " + cyanPixB[0] + " " + cyanPixB[1]);
+		drawLine(i, cyanPixA[0], cyanPixA[1], cyanPixB[0], cyanPixB[1], 5, Color.GREEN);
+		int[] redPix = {cyanPixA[0], cyanPixA[1]};
+		return findRegionAlt(i, Color.RED, 100, redPix); //change to an int for the middle y pixel of the tag
 	}
 	
 	public static boolean[] readTag(BufferedImage i) {
