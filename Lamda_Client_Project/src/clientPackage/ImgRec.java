@@ -58,6 +58,15 @@ public class ImgRec {
 				+ Math.pow(b.getBlue() - a.getBlue(), 2));
 		return d < e;
 	}
+	
+	public static int getRegionColor(BufferedImage i, int x, int y) {
+		int avgColor = 0;
+		for (int n = 0; n < 9; n++) {
+			avgColor += i.getRGB(x, y);
+		}
+		avgColor /= 9;
+		return avgColor;
+	}
 
 	public static int getTop(BufferedImage i, int x, int y, Color c, int e) {
 		Color a = new Color(i.getRGB(x, y));
@@ -100,6 +109,7 @@ public class ImgRec {
 	}
 
 	public static int getRight(BufferedImage i, int x, int y, Color c, int e) {
+		System.out.println("right");
 		Color a = new Color(i.getRGB(x, y));
 		Color z;
 		if (y + 5 < i.getHeight()) {
@@ -198,20 +208,23 @@ public class ImgRec {
 	public static int[] findTag(BufferedImage i) {
 		Color c;
 		int[] cyanPix = new int[2];
+		LocA:
 		for (int n = 0; n < i.getWidth(); n += 5) {
 			for (int m = 0; m < i.getHeight(); m += 5) {
 				c = new Color(i.getRGB(n, m));
-				if (sameColor(c, Color.GREEN, 150)) {
+				if (sameColor(c, new Color(20, 120, 160), 50)) {
 					cyanPix[0] = n;
 					cyanPix[1] = m;
+					break LocA;
 				}
 			}
 		}
 		
 		System.out.println("found it: " + cyanPix[0] + " " + cyanPix[1]);
-		drawLine(i, 0, 0, cyanPix[0], cyanPix[1], 5, Color.BLUE);
+		drawLine(i, 0, 0, cyanPix[0], cyanPix[1], 5, Color.GREEN);
 		
 		int[] redPix = {cyanPix[0], cyanPix[1]};
+		
 		/*boolean y = true;
 		while (y && redPix[1] > 0) {
 			if (!sameColor(new Color(i.getRGB(redPix[0], redPix[1])), Color.RED, 100)) {
@@ -235,10 +248,13 @@ public class ImgRec {
 			}
 		}*/
 		
-		redPix[1] = getLeft(i, cyanPix[0], cyanPix[1], Color.RED, 100);
-		redPix[0] = getRight(i, cyanPix[0], redPix[1], Color.WHITE, 20) - 1;
+		redPix[1] = getTop(i, cyanPix[0], cyanPix[1], new Color(200, 200, 200), 30);
 		
-		drawLine(i, redPix[0], redPix[1], cyanPix[0], cyanPix[1], 5, Color.BLUE);
+		drawLine(i, redPix[0], redPix[1], cyanPix[0], cyanPix[1], 5, Color.GREEN);
+		
+		redPix[0] = getRight(i, cyanPix[0], redPix[1], new Color(200, 200, 200), 30) - 1;
+		
+		drawLine(i, redPix[0], redPix[1], cyanPix[0], cyanPix[1], 5, Color.GREEN);
 		
 		return findRegionAlt(i, Color.RED, 100, redPix);
 	}

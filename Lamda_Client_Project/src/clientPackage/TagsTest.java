@@ -12,7 +12,7 @@ public class TagsTest {
 	public static void main(String[] args) throws IOException {
 		BufferedImage i = null;
 		try {
-			i = ImageIO.read(new File("tag.jpg"));
+			i = ImageIO.read(new File("tagA.png"));
 		} catch (IOException e) {
 		}
 		boolean[] coords = ImgRec.readTag(i);
