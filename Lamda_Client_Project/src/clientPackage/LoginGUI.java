@@ -260,7 +260,7 @@ public class LoginGUI extends JFrame{
 					if(md5Hash(user).equals("[33, 35, 47, 41, 122, 87, -91, -89, 67, -119, 74, 14, 74, -128, 31, -61]")&&md5Hash(pass).equals(passHash)){
 						//username=admin;password=password
 						dispose();
-						FrameClassV6.main(args);
+						InventoryGUI.main(args);
 						//run next part of program
 					}
 					else{
