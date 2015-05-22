@@ -38,7 +38,8 @@ public class InventoryGUI extends JFrame {
 		int y = (dim.height-h)/2;
 		// Initializes the table containing each of the values
 		ExcelFile f = new ExcelFile("Inventory.xls");
-		ArrayList<ArrayList<String>> data = f.readAll();
+		ArrayList<ArrayList<ArrayList<String>>> Sheetdata = f.readAll();
+		ArrayList<ArrayList<String>> data=Sheetdata.get(0);
 		System.out.println(data);
 		Object columnNames[] = new Object[data.get(0).size()+2];
 		for (int i = 0; i<data.get(0).size(); i++){
