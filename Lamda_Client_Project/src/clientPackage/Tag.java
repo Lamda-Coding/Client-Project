@@ -18,7 +18,7 @@ import javax.imageio.ImageIO;
 
 public class Tag {
 	// --------------------------------------Fields-------------------------------------
-	private BufferedImage tagPic = new BufferedImage(140, 20,
+	private BufferedImage tagPic = new BufferedImage(140, 40,
 			BufferedImage.TYPE_INT_RGB);
 	private boolean[] valBin = new boolean[8];// Binary Value constrained to
 												// decimal 0-511
@@ -65,8 +65,8 @@ public class Tag {
 	}
 
 	public void makeTag() throws IOException {
-		ImgRec.fillSquare(tagPic, 0, 0, 19, 19, Color.CYAN);
-		ImgRec.drawSquare(tagPic, 0, 0, 19, 19, 4, Color.RED);
+		ImgRec.fillSquare(tagPic, 0, 0, 19, 39, Color.CYAN);
+		ImgRec.drawSquare(tagPic, 0, 0, 19, 39, 4, Color.RED);
 		Color c;
 		for (int n = 20; n < 140; n += 15) {
 			if (valBin[(n - 20) / 15] == true) {
@@ -74,8 +74,8 @@ public class Tag {
 			} else {
 				c = Color.WHITE;
 			}
-			ImgRec.fillSquare(tagPic, n, 0, n + 15, 19, c);
-			ImgRec.drawSquare(tagPic, n - 1, 0, n + 14, 19, 4, Color.RED);
+			ImgRec.fillSquare(tagPic, n, 0, n + 15, 39, c);
+			ImgRec.drawSquare(tagPic, n - 1, 0, n + 14, 39, 4, Color.RED);
 		}
 		writeTag();
 	}
