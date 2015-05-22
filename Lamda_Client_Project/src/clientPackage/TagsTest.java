@@ -19,8 +19,8 @@ public class TagsTest {
 		boolean[] coords = ImgRec.readTag(i);
 		int a = Tag.convDec(coords);
 		System.out.println(a);
+		//ImgRec.fillSquare(i, 0, 0, 25, 25, new Color(ImgRec.getRegionColor(i, 0, 0)));
 		File f = new File("pic_test.png");
 		ImageIO.write(i, "PNG", f);
-
 	}
 }

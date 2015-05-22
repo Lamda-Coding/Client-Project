@@ -222,30 +222,31 @@ public class ImgRec {
 	
 	public static int[] findTag(BufferedImage i) {
 		Color c;
-		int[] cyanPixA = new int[2];
-		int[] cyanPixB = new int[2];
+		Color d = new Color(10, 120, 160);
+		Color f = Color.BLACK;
+		int[] coords = {0, 0, 0, 0};
 		boolean first = true;
-		LocA:
 		for (int n = 0; n < i.getWidth(); n += 5) {
 			for (int m = 0; m < i.getHeight(); m += 5) {
-				c = new Color(i.getRGB(n, m));
-				if (sameColor(c, new Color(getRegionColor(i, n, m)), 100) && first) {
-					cyanPixA[0] = n;
-					cyanPixA[1] = m;
+				c = new Color(getRegionColor(i, n, m));
+				System.out.println("n: " + n + " m: " + m);
+				f = new Color(c.getRed(), c.getGreen(), c.getBlue());
+				if (sameColor(c, d, 100) && first) {
+					coords[0] = n;
+					coords[1] = m;
 					first = false;
-					break LocA;
-				}
-				else if(sameColor(c, new Color(getRegionColor(i, n, m)), 100)) {
-					cyanPixB[0] = n;
-					cyanPixB[1] = m;
+				} else if(sameColor(c, d, 100)) {
+					coords[2] = n;
+					coords[3] = m;
 				}
 			}
 		}
-		System.out.println("found it: " + cyanPixA[0] + " " + cyanPixA[1]);
-		System.out.println("and: " + cyanPixB[0] + " " + cyanPixB[1]);
-		drawLine(i, cyanPixA[0], cyanPixA[1], cyanPixB[0], cyanPixB[1], 5, Color.GREEN);
-		int[] redPix = {cyanPixA[0], cyanPixA[1]};
-		return findRegionAlt(i, Color.RED, 100, redPix); //change to an int for the middle y pixel of the tag
+		for (int n = 0; n < 4; n++) {
+			System.out.println(coords[n]);
+		}
+		fillSquare(i, 0, 0, 25, 25, d);
+		fillSquare(i, 0, 25, 25, 50, f);
+		return coords;
 	}
 	
 	public static boolean[] readTag(BufferedImage i) {
@@ -254,19 +255,20 @@ public class ImgRec {
 		int y = (bounds[1] + bounds[3]) / 2;
 		int a = 0;
 		boolean s = false;
-		for (int n = bounds[0]; n < bounds[2] && a < 8; n ++) {
-			//System.out.println(n + " " + y);
-			//System.out.println(i.getHeight());
-			Color pColor =  new Color(i.getRGB(n, y));
-			//i.setRGB(n, y, Color.RED.getRGB());
-			if (sameColor(pColor, Color.BLACK, 50)) {
+		for (int n = bounds[0]; n < i.getWidth() && a < 8; n ++) {
+			i.setRGB(n, y, Color.GREEN.getRGB());
+			Color pColor =  new Color(getRegionColor(i, n, y));
+			if (sameColor(pColor, Color.BLACK, 100)) {
+				System.out.println("black");
 				binSeq[a] = true;
 				s = true;
-			} else if (sameColor(pColor, Color.WHITE, 50)) {
+			} else if (sameColor(pColor, new Color(200, 200, 200), 100)) {
+				System.out.println("white");
 				s = true;
 				binSeq[a] = false;
-			} else if (s) {
+			} else if (sameColor(pColor, new Color(190, 60, 60), 100) && s) {
 				a++;
+				System.out.println("moving on");
 				s = false;
 			}
 		}
