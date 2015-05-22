@@ -9,10 +9,10 @@ import javax.swing.*;
 import javax.swing.table.*;
 
 
-public class FrameClassV6 extends JFrame {
+public class InventoryGUI extends JFrame {
 	JTable table;
 	public static boolean yesno = false;
-	public FrameClassV6() throws IOException {
+	public InventoryGUI() throws IOException {
 		// initializes the frame and two panels 
 		JFrame frame = new JFrame();
 		JPanel tablePanel = new JPanel();
@@ -23,6 +23,9 @@ public class FrameClassV6 extends JFrame {
 		frame.setTitle("VEX Component Catalogue");
 //		frame.getContentPane().setBackground(Color.CYAN);
 		frame.setResizable(false);
+		frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		frame.setLocationRelativeTo(null);
+		//frame.setSize(660, 660);
 		// Sets the logo of LAMDA Coding in the top left
 		ImageIcon logoicon = new ImageIcon("logoReal.png");
 		Image logo = logoicon.getImage();
@@ -45,25 +48,39 @@ public class FrameClassV6 extends JFrame {
 		columnNames[data.get(0).size()] = "Check In (+1)";
 		columnNames[data.get(0).size()+1] = "Check Out (-1)";
 		
-		Object rowData[][] = new Object[data.get(0).size()+2][data.size()];
+		Object rowData[][] = new Object[data.size()-1][data.get(0).size()+2];
 		
-		for (int i = 0; i<data.size(); i++){
+		for (int i = 0; i<data.size()-1; i++){
 			for (int j = 0; j<data.get(0).size(); j++){
-				rowData[i][j] = data.get(0).get(i);
+				if (Character.isDigit((data.get(i+1).get(j).charAt(0)))) {
+					rowData[i][j] = Integer.parseInt(data.get(i+1).get(j));
+				}
+				else{
+					rowData[i][j] = data.get(i+1).get(j);
+				}
 			}
 		}
-		for (int i = data.get(0).size(); i<rowData.length;i++){
-			
+		for (int i = 0; i<data.size()-1; i++){
+			rowData[i][data.get(0).size()] = "+";
+			rowData[i][data.get(0).size()+1] = "-";
 		}
+		
 //		Object rowData[][] = { { "Item 1", 0, 128, "+", "-" },
 //		        			   { "Item 1", 0, 128, "+", "-" }, 
 //							   { "Item 1", 0, 128, "+", "-"  } };
 	    JTable table = new JTable(rowData, columnNames);
 	    // Renders the last two columns as buttons
-	    table.getColumn("Check In (+1)").setCellRenderer(new ButtonRenderer6());
-	    table.getColumn("Check In (+1)").setCellEditor(new ButtonEditor6(new JCheckBox()));
-	    table.getColumn("Check Out (-1)").setCellRenderer(new ButtonRenderer6());
-	    table.getColumn("Check Out (-1)").setCellEditor(new ButtonEditor6(new JCheckBox()));
+	    table.getColumn("Check In (+1)").setCellRenderer(new ButtonRenderer());
+	    table.getColumn("Check In (+1)").setCellEditor(new ButtonEditor(new JCheckBox()));
+	    table.getColumn("Check Out (-1)").setCellRenderer(new ButtonRenderer());
+	    table.getColumn("Check Out (-1)").setCellEditor(new ButtonEditor(new JCheckBox()));
+	    table.setFont(new Font ("Sans Serif", Font.PLAIN, 20));
+	    table.setRowHeight(40);
+	    DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+	    centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+	    table.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
+	    table.setDefaultRenderer(Object.class, centerRenderer);
+	    
 	    JScrollPane scrollPane = new JScrollPane(table);
 	    tablePanel.add(scrollPane, BorderLayout.CENTER);	//creates a panel containing the table
 	    //creates some button without a current use
@@ -72,8 +89,8 @@ public class FrameClassV6 extends JFrame {
 	    buttonPanel.add(btnAdd);
 	    buttonPanel.add(btnSave);
 	 // adds the panels to the frame and sets it to be visible
-		frame.setSize(660, 660);
-	    frame.getContentPane().add(tablePanel, BorderLayout.CENTER);
+		
+	    frame.getContentPane().add(tablePanel, BorderLayout.WEST);
 	    frame.getContentPane().add(buttonPanel, BorderLayout.SOUTH);
 	    //creates a menubar that allows for easy exit
 	    JMenuBar menuBar = new JMenuBar();
@@ -99,7 +116,7 @@ public class FrameClassV6 extends JFrame {
 	 * @throws IOException 
 	 */
 	public static void main(String[] args) throws IOException {
-		FrameClassV6 frame = new FrameClassV6();
+		InventoryGUI frame = new InventoryGUI();
 	    frame.addWindowListener(new WindowAdapter() {
 	      public void windowClosing(WindowEvent e) {
 	        System.exit(0);
@@ -112,8 +129,8 @@ public class FrameClassV6 extends JFrame {
 
 //The next several classes render and edit the buttons contained in the tables using the specific mouse click, and record the location of 
 //the mouse click relative to the table by storing the row and column of the click.
-class ButtonRenderer6 extends JButton implements TableCellRenderer {
-	  public ButtonRenderer6() {
+class ButtonRenderer extends JButton implements TableCellRenderer {
+	  public ButtonRenderer() {
 	    setOpaque(true);
 	  }
 
@@ -133,12 +150,12 @@ class ButtonRenderer6 extends JButton implements TableCellRenderer {
 	    
 	  }
 	}
-class ButtonEditor6 extends DefaultCellEditor {
+class ButtonEditor extends DefaultCellEditor {
 	  protected JButton button;
 	  private String label;
 	  
 	  private boolean isPushed;
-	  public ButtonEditor6(JCheckBox checkBox) {
+	  public ButtonEditor(JCheckBox checkBox) {
 	    super(checkBox);
 	    button = new JButton();
 	    button.setOpaque(true);
@@ -161,17 +178,24 @@ class ButtonEditor6 extends DefaultCellEditor {
 	    label = (value == null) ? "" : value.toString();
 	    button.setText(label);
 	    isPushed = true;
-	    changeTable(table, row, column);
+	    try {
+			changeTable(table, row, column);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	    return button;
 	  }
 	  // This method adds or subtracts 1 from the Quantity depending on whether + or - are clicked
-	  public void changeTable(JTable table, int row, int col){
+	  public void changeTable(JTable table, int row, int col) throws IOException{
 		  if (isPushed){
-			  if (col==2){
-				  table.setValueAt((Integer)table.getValueAt(row,col-1)+1, row, col-1);
+			  if (col==3){
+				  table.setValueAt((Integer)(table.getValueAt(row,col-1))+1, row, col-1);
+				  new ExcelFile("Inventory.xls").write(0,row+1,col-1,String.valueOf(table.getValueAt(row,col-1)));
 			  }
-			  else if (col==3){
-				  table.setValueAt((Integer)table.getValueAt(row,col-2)-1, row, col-2);
+			  else if (col==4){
+				  table.setValueAt((Integer)(table.getValueAt(row,col-2))-1, row, col-2);
+				  new ExcelFile("Inventory.xls").write(0,row+1,col-2,String.valueOf(table.getValueAt(row,col-2)));
 			  }
 			 
 		  }
