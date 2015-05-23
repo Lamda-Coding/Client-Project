@@ -10,6 +10,10 @@ import javax.swing.table.*;
 
 
 public class InventoryGUI extends JFrame {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	JTable table;
 	JPanel tablePanel;
 	ArrayList<ArrayList<String>> data;
@@ -28,7 +32,7 @@ public class InventoryGUI extends JFrame {
 		tablePanel = new JPanel();
 		JPanel buttonPanel = new JPanel();
 		JPanel sheetPanel=new JPanel();
-		ArrayList<JButton> sheetButtons= new ArrayList();
+		ArrayList<JButton> sheetButtons= new ArrayList<JButton>();
 		int curSheet=0;
 		// initializations for the JFrame as a whole
 		//frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -53,7 +57,7 @@ public class InventoryGUI extends JFrame {
 		ExcelFile f = new ExcelFile("Inventory.xls");
 		Sheetdata = f.readAll();
 		data=Sheetdata.get(curSheet);
-		System.out.println(data);
+		//System.out.println(data);
 		for(int i=0;i<Sheetdata.size();i++){
 			sheetButtons.add(new JButton("Sheet "+(i+1)));
 			sheetButtons.get(i).addActionListener(new SheetButtonActionListener(sheetButtons.get(i)){
@@ -160,7 +164,13 @@ public class InventoryGUI extends JFrame {
 //The next several classes render and edit the buttons contained in the tables using the specific mouse click, and record the location of 
 //the mouse click relative to the table by storing the row and column of the click.
 class ButtonRenderer extends JButton implements TableCellRenderer {
-	  public ButtonRenderer() {
+	  /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+
+	public ButtonRenderer() {
 	    setOpaque(true);
 	  }
 
@@ -181,7 +191,11 @@ class ButtonRenderer extends JButton implements TableCellRenderer {
 	  }
 	}
 class ButtonEditor extends DefaultCellEditor {
-	  protected JButton button;
+	  /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	protected JButton button;
 	  private String label;
 	  
 	  private boolean isPushed;
@@ -211,7 +225,6 @@ class ButtonEditor extends DefaultCellEditor {
 	    try {
 			changeTable(table, row, column);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	    return button;
@@ -220,12 +233,12 @@ class ButtonEditor extends DefaultCellEditor {
 	  public void changeTable(JTable table, int row, int col) throws IOException{
 		  if (isPushed){
 			  if (col==2){ //changed from 3 to 2 (might be formatting error for my excel file)
-				  System.out.println((table.getValueAt(row,col-1)));
+				  //System.out.println((table.getValueAt(row,col-1)));
 				  table.setValueAt((Integer)(table.getValueAt(row,col-1))+1, row, col-1);
 				  new ExcelFile("Inventory.xls").write(0,row+1,col-1,String.valueOf(table.getValueAt(row,col-1)));
 			  }
 			  else if (col==3){ //changed from 4 to 3 (might be formatting error for my excel file)
-				  System.out.println((table.getValueAt(row,col-2)));
+				  //System.out.println((table.getValueAt(row,col-2)));
 				  table.setValueAt((Integer)(table.getValueAt(row,col-2))-1, row, col-2);
 				  new ExcelFile("Inventory.xls").write(0,row+1,col-2,String.valueOf(table.getValueAt(row,col-2)));
 			  }
