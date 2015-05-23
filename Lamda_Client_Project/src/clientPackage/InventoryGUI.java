@@ -18,14 +18,14 @@ public class InventoryGUI extends JFrame {
 		JPanel tablePanel = new JPanel();
 		JPanel buttonPanel = new JPanel();
 		// initializations for the JFrame as a whole
-		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		//frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		frame.setVisible(true);
 		frame.setTitle("VEX Component Catalogue");
 //		frame.getContentPane().setBackground(Color.CYAN);
 		frame.setResizable(false);
 		frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		frame.setSize(465, 500);
 		frame.setLocationRelativeTo(null);
-		//frame.setSize(660, 660);
 		// Sets the logo of LAMDA Coding in the top left
 		ImageIcon logoicon = new ImageIcon("logoReal.png");
 		Image logo = logoicon.getImage();
