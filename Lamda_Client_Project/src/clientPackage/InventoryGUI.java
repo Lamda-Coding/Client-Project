@@ -19,7 +19,7 @@ public class InventoryGUI extends JFrame {
 		JPanel buttonPanel = new JPanel();
 		// initializations for the JFrame as a whole
 		//frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-		frame.setVisible(true);
+		//frame.setVisible(true);
 		frame.setTitle("VEX Component Catalogue");
 //		frame.getContentPane().setBackground(Color.CYAN);
 		frame.setResizable(false);
@@ -189,11 +189,13 @@ class ButtonEditor extends DefaultCellEditor {
 	  // This method adds or subtracts 1 from the Quantity depending on whether + or - are clicked
 	  public void changeTable(JTable table, int row, int col) throws IOException{
 		  if (isPushed){
-			  if (col==3){
+			  if (col==2){ //changed from 3 to 2 (might be formatting error for my excel file)
+				  System.out.println((table.getValueAt(row,col-1)));
 				  table.setValueAt((Integer)(table.getValueAt(row,col-1))+1, row, col-1);
 				  new ExcelFile("Inventory.xls").write(0,row+1,col-1,String.valueOf(table.getValueAt(row,col-1)));
 			  }
-			  else if (col==4){
+			  else if (col==3){ //changed from 4 to 3 (might be formatting error for my excel file)
+				  System.out.println((table.getValueAt(row,col-2)));
 				  table.setValueAt((Integer)(table.getValueAt(row,col-2))-1, row, col-2);
 				  new ExcelFile("Inventory.xls").write(0,row+1,col-2,String.valueOf(table.getValueAt(row,col-2)));
 			  }
