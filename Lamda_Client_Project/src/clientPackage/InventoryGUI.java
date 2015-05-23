@@ -11,9 +11,11 @@ import javax.swing.table.*;
 
 public class InventoryGUI extends JFrame {
 	JTable table;
+	JPanel tablePanel;
 	ArrayList<ArrayList<String>> data;
 	ArrayList<ArrayList<ArrayList<String>>> Sheetdata;
 	public static boolean yesno = false;
+	JFrame frame;
 	public void setData(ArrayList<ArrayList<String>> dataA){
 		data=dataA;
 	}
@@ -22,8 +24,8 @@ public class InventoryGUI extends JFrame {
 	}
 	public InventoryGUI() throws IOException {
 		// initializes the frame and two panels 
-		JFrame frame = new JFrame();
-		JPanel tablePanel = new JPanel();
+		frame = new JFrame();
+		tablePanel = new JPanel();
 		JPanel buttonPanel = new JPanel();
 		JPanel sheetPanel=new JPanel();
 		ArrayList<JButton> sheetButtons= new ArrayList();
@@ -59,10 +61,11 @@ public class InventoryGUI extends JFrame {
 	            public void actionPerformed(ActionEvent e) {
 					setData(getSheet(this.getnum()));
 					for (int i = 0; i<data.get(0).size(); i++){
-						System.out.println(data.get(0).get(i));
-						//set headers but needs to click on table for refresh for some reason...now need to update cells
+						//set headers...now need to update cells
 						table.getTableHeader().getColumnModel().getColumn(i).setHeaderValue(data.get(0).get(i));
 				        table.repaint();
+				        tablePanel.setVisible(false);
+				        tablePanel.setVisible(true);
 					}
 	            }
 	        });
