@@ -11,12 +11,23 @@ import javax.swing.table.*;
 
 public class InventoryGUI extends JFrame {
 	JTable table;
+	ArrayList<ArrayList<String>> data;
+	ArrayList<ArrayList<ArrayList<String>>> Sheetdata;
 	public static boolean yesno = false;
+	public void setData(ArrayList<ArrayList<String>> dataA){
+		data=dataA;
+	}
+	public ArrayList<ArrayList<String>> getSheet(int x){
+		return Sheetdata.get(x-1);
+	}
 	public InventoryGUI() throws IOException {
 		// initializes the frame and two panels 
 		JFrame frame = new JFrame();
 		JPanel tablePanel = new JPanel();
 		JPanel buttonPanel = new JPanel();
+		JPanel sheetPanel=new JPanel();
+		ArrayList<JButton> sheetButtons= new ArrayList();
+		int curSheet=0;
 		// initializations for the JFrame as a whole
 		//frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		//frame.setVisible(true);
@@ -38,9 +49,25 @@ public class InventoryGUI extends JFrame {
 		int y = (dim.height-h)/2;
 		// Initializes the table containing each of the values
 		ExcelFile f = new ExcelFile("Inventory.xls");
-		ArrayList<ArrayList<ArrayList<String>>> Sheetdata = f.readAll();
-		ArrayList<ArrayList<String>> data=Sheetdata.get(0);
+		Sheetdata = f.readAll();
+		data=Sheetdata.get(curSheet);
 		System.out.println(data);
+		for(int i=0;i<Sheetdata.size();i++){
+			sheetButtons.add(new JButton("Sheet "+(i+1)));
+			sheetButtons.get(i).addActionListener(new SheetButtonActionListener(sheetButtons.get(i)){
+				@Override
+	            public void actionPerformed(ActionEvent e) {
+					setData(getSheet(this.getnum()));
+					for (int i = 0; i<data.get(0).size(); i++){
+						System.out.println(data.get(0).get(i));
+						//set headers but needs to click on table for refresh for some reason...now need to update cells
+						table.getTableHeader().getColumnModel().getColumn(i).setHeaderValue(data.get(0).get(i));
+				        table.repaint();
+					}
+	            }
+	        });
+			sheetPanel.add(sheetButtons.get(i));
+		}
 		Object columnNames[] = new Object[data.get(0).size()+2];
 		for (int i = 0; i<data.get(0).size(); i++){
 			columnNames[i] = data.get(0).get(i);
@@ -68,7 +95,7 @@ public class InventoryGUI extends JFrame {
 //		Object rowData[][] = { { "Item 1", 0, 128, "+", "-" },
 //		        			   { "Item 1", 0, 128, "+", "-" }, 
 //							   { "Item 1", 0, 128, "+", "-"  } };
-	    JTable table = new JTable(rowData, columnNames);
+	    table = new JTable(rowData, columnNames);
 	    // Renders the last two columns as buttons
 	    table.getColumn("Check In (+1)").setCellRenderer(new ButtonRenderer());
 	    table.getColumn("Check In (+1)").setCellEditor(new ButtonEditor(new JCheckBox()));
@@ -89,7 +116,7 @@ public class InventoryGUI extends JFrame {
 	    buttonPanel.add(btnAdd);
 	    buttonPanel.add(btnSave);
 	 // adds the panels to the frame and sets it to be visible
-		
+	    frame.getContentPane().add(sheetPanel, BorderLayout.NORTH);
 	    frame.getContentPane().add(tablePanel, BorderLayout.WEST);
 	    frame.getContentPane().add(buttonPanel, BorderLayout.SOUTH);
 	    //creates a menubar that allows for easy exit
