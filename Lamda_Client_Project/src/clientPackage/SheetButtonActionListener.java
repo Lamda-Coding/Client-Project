@@ -2,7 +2,6 @@ package clientPackage;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 import javax.swing.JButton;
 
@@ -22,7 +21,6 @@ public class SheetButtonActionListener implements ActionListener {
 	}
 	public void actionPerformed(ActionEvent e) {
 		
-		// TODO Auto-generated method stub
 		
 	}
 

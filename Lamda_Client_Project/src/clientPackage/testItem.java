@@ -2,6 +2,7 @@ package clientPackage;
 
 public class testItem {
 
+	@SuppressWarnings("unused")
 	public static void main(String[] args) {
 		testItem1 x=new testItem1();
 		System.out.println(item.inventory);
@@ -15,7 +16,6 @@ public class testItem {
 		System.out.println(item.inventory);
 		System.out.println(testItem1.testItem1inventory);
 		System.out.println(testitem2.testItem2inventory);
-		// TODO Auto-generated method stub
 
 	}
 
