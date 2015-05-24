@@ -21,6 +21,7 @@ public class InventoryGUI extends JFrame {
 	public static boolean yesno = false;
 	public static int curSheet;
 	JFrame frame;
+	public static ExcelFile inventoryFile;
 	public void setData(ArrayList<ArrayList<String>> dataA){
 		data=dataA;
 	}
@@ -29,6 +30,7 @@ public class InventoryGUI extends JFrame {
 	}
 	public InventoryGUI() throws IOException {
 		// initializes the frame and two panels 
+		inventoryFile= new ExcelFile("Inventory.xls");
 		frame = new JFrame();
 		tablePanel = new JPanel();
 		JPanel buttonPanel = new JPanel();
@@ -55,8 +57,7 @@ public class InventoryGUI extends JFrame {
 		int x = (dim.width-w)/2;
 		int y = (dim.height-h)/2;
 		// Initializes the table containing each of the values
-		ExcelFile f = new ExcelFile("Inventory.xls");
-		Sheetdata = f.readAll();
+		Sheetdata = inventoryFile.readAll();
 		data=Sheetdata.get(curSheet);
 		//System.out.println(data);
 		for(int i=0;i<Sheetdata.size();i++){
@@ -247,14 +248,15 @@ class ButtonEditor extends DefaultCellEditor {
 	  public void changeTable(JTable table, int row, int col) throws IOException{
 		  if (isPushed){
 			  if (col==2){ //changed from 3 to 2 (might be formatting error for my excel file)
-				  System.out.println((table.getValueAt(row,col-1)));
+				  //System.out.println((table.getValueAt(row,col-1)));
 				  table.setValueAt((Integer)(table.getValueAt(row,col-1))+1, row, col-1);
-				  new ExcelFile("Inventory.xls").write(InventoryGUI.curSheet,row+1,col-1,String.valueOf(table.getValueAt(row,col-1)));
+				  System.out.println(InventoryGUI.curSheet);
+				  InventoryGUI.inventoryFile.write(InventoryGUI.curSheet,row+1,col-1,String.valueOf(table.getValueAt(row,col-1)));
 			  }
 			  else if (col==3){ //changed from 4 to 3 (might be formatting error for my excel file)
 				  //System.out.println((table.getValueAt(row,col-2)));
 				  table.setValueAt((Integer)(table.getValueAt(row,col-2))-1, row, col-2);
-				  new ExcelFile("Inventory.xls").write(InventoryGUI.curSheet,row+1,col-2,String.valueOf(table.getValueAt(row,col-2)));
+				  InventoryGUI.inventoryFile.write(InventoryGUI.curSheet,row+1,col-2,String.valueOf(table.getValueAt(row,col-2)));
 			  }
 			 
 		  }
