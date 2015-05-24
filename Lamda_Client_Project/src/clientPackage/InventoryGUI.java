@@ -69,10 +69,16 @@ public class InventoryGUI extends JFrame {
 					for (int i = 0; i<data.get(0).size(); i++){
 						//set headers...now need to update cells
 						table.getTableHeader().getColumnModel().getColumn(i).setHeaderValue(data.get(0).get(i));
-						table.repaint();
-				        tablePanel.setVisible(false);
-				        tablePanel.setVisible(true);
+						for (int j=1;j<data.size();j++){
+							System.out.println(data.get(j).get(i));
+							//System.out.println(data.get(i).toString());
+							//System.out.println(data.get(j).toString());
+							table.setValueAt(data.get(j).get(i), j-1, i);
+						}
 					}
+					table.repaint();
+			        tablePanel.setVisible(false);
+			        tablePanel.setVisible(true);
 					
 	            }
 	        });
