@@ -70,10 +70,15 @@ public class InventoryGUI extends JFrame {
 						//set headers...now need to update cells
 						table.getTableHeader().getColumnModel().getColumn(i).setHeaderValue(data.get(0).get(i));
 						for (int j=1;j<data.size();j++){
-							System.out.println(data.get(j).get(i));
+							//System.out.println(data.get(j).get(i));
 							//System.out.println(data.get(i).toString());
 							//System.out.println(data.get(j).toString());
-							table.setValueAt(data.get(j).get(i), j-1, i);
+							if (Character.isDigit((data.get(j).get(i).charAt(0)))){ 
+								table.setValueAt(Integer.parseInt(data.get(j).get(i)), j-1, i);
+							}
+							else{
+								table.setValueAt((data.get(j).get(i)), j-1, i);
+								}
 						}
 					}
 					table.repaint();
@@ -242,7 +247,7 @@ class ButtonEditor extends DefaultCellEditor {
 	  public void changeTable(JTable table, int row, int col) throws IOException{
 		  if (isPushed){
 			  if (col==2){ //changed from 3 to 2 (might be formatting error for my excel file)
-				  //System.out.println((table.getValueAt(row,col-1)));
+				  System.out.println((table.getValueAt(row,col-1)));
 				  table.setValueAt((Integer)(table.getValueAt(row,col-1))+1, row, col-1);
 				  new ExcelFile("Inventory.xls").write(InventoryGUI.curSheet,row+1,col-1,String.valueOf(table.getValueAt(row,col-1)));
 			  }
