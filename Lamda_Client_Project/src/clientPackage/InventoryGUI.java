@@ -19,6 +19,7 @@ public class InventoryGUI extends JFrame {
 	ArrayList<ArrayList<String>> data;
 	ArrayList<ArrayList<ArrayList<String>>> Sheetdata;
 	public static boolean yesno = false;
+	public static int curSheet;
 	JFrame frame;
 	public void setData(ArrayList<ArrayList<String>> dataA){
 		data=dataA;
@@ -33,7 +34,7 @@ public class InventoryGUI extends JFrame {
 		JPanel buttonPanel = new JPanel();
 		JPanel sheetPanel=new JPanel();
 		ArrayList<JButton> sheetButtons= new ArrayList<JButton>();
-		int curSheet=0;
+		curSheet=0;
 		// initializations for the JFrame as a whole
 		//frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		//frame.setVisible(true);
@@ -64,13 +65,15 @@ public class InventoryGUI extends JFrame {
 				@Override
 	            public void actionPerformed(ActionEvent e) {
 					setData(getSheet(this.getnum()));
+					curSheet=this.getnum()-1;
 					for (int i = 0; i<data.get(0).size(); i++){
 						//set headers...now need to update cells
 						table.getTableHeader().getColumnModel().getColumn(i).setHeaderValue(data.get(0).get(i));
-				        table.repaint();
+						table.repaint();
 				        tablePanel.setVisible(false);
 				        tablePanel.setVisible(true);
 					}
+					
 	            }
 	        });
 			sheetPanel.add(sheetButtons.get(i));
@@ -235,12 +238,12 @@ class ButtonEditor extends DefaultCellEditor {
 			  if (col==2){ //changed from 3 to 2 (might be formatting error for my excel file)
 				  //System.out.println((table.getValueAt(row,col-1)));
 				  table.setValueAt((Integer)(table.getValueAt(row,col-1))+1, row, col-1);
-				  new ExcelFile("Inventory.xls").write(0,row+1,col-1,String.valueOf(table.getValueAt(row,col-1)));
+				  new ExcelFile("Inventory.xls").write(InventoryGUI.curSheet,row+1,col-1,String.valueOf(table.getValueAt(row,col-1)));
 			  }
 			  else if (col==3){ //changed from 4 to 3 (might be formatting error for my excel file)
 				  //System.out.println((table.getValueAt(row,col-2)));
 				  table.setValueAt((Integer)(table.getValueAt(row,col-2))-1, row, col-2);
-				  new ExcelFile("Inventory.xls").write(0,row+1,col-2,String.valueOf(table.getValueAt(row,col-2)));
+				  new ExcelFile("Inventory.xls").write(InventoryGUI.curSheet,row+1,col-2,String.valueOf(table.getValueAt(row,col-2)));
 			  }
 			 
 		  }
