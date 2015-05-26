@@ -19,6 +19,7 @@ public class InventoryGUI extends JFrame {
 	public static int curSheet;
 	JFrame frame;
 	public static ExcelFile inventoryFile;
+	protected static String[] args;
 	public void setData(ArrayList<ArrayList<String>> dataA){
 		data=dataA;
 	}
@@ -132,8 +133,20 @@ public class InventoryGUI extends JFrame {
 	    JScrollPane scrollPane = new JScrollPane(table);
 	    tablePanel.add(scrollPane, BorderLayout.CENTER);	//creates a panel containing the table
 	    //creates some buttons without a current use
+	    JButton btnTag = new JButton("Make/Get Tags");
+	    btnTag.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				TagGUI.main(InventoryGUI.args);
+				
+			}
+	    	
+	    });
 	    JButton btnSave = new JButton("Save to File");
 	    JButton btnAdd = new JButton("Update from File");
+	    buttonPanel.add(btnTag);
 	    buttonPanel.add(btnAdd);
 	    buttonPanel.add(btnSave);
 	 // adds the panels to the frame and sets it to be visible
