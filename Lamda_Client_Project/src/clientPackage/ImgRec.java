@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+
 import javax.imageio.ImageIO;
 
 public class ImgRec {
@@ -96,7 +98,7 @@ public class ImgRec {
 		Color a = new Color(getRegionColor(i, x, y));
 		Color z;
 		if (x + 5 < i.getWidth()) {
-			z = new Color(i.getRGB(x + 5, y));	
+			z = new Color(getRegionColor(i, x + 5, y));	
 		} else {
 			z = Color.BLACK;
 		}
@@ -112,7 +114,7 @@ public class ImgRec {
 		Color a = new Color(getRegionColor(i, x, y));
 		Color z;
 		if (y + 5 < i.getHeight()) {
-			z = new Color(i.getRGB(x, y + 5));
+			z = new Color(getRegionColor(i, x, y + 5));
 		} else {
 			z = Color.BLACK;
 		}
@@ -128,7 +130,7 @@ public class ImgRec {
 		Color a = new Color(getRegionColor(i, x, y));
 		Color z;
 		if (y + 5 < i.getHeight()) {
-			z = new Color(i.getRGB(x, y + 5));
+			z = new Color(getRegionColor(i, x, y + 5));
 		} else{
 			z = Color.BLACK;
 		}
@@ -220,6 +222,7 @@ public class ImgRec {
 		return region;
 	}
 	
+	/*
 	public static int[] findTag(BufferedImage i) {
 		Color c;
 		Color d = new Color(10, 120, 160);
@@ -248,9 +251,37 @@ public class ImgRec {
 		fillSquare(i, 0, 25, 25, 50, f);
 		return coords;
 	}
+	*/
+	
+	public static int[] findTag(BufferedImage i) {
+		Color c;
+		Color d = new Color(10, 120, 160);
+		int[] coords = {0, 0, 0, 0};
+		int[] pix = new int[2];
+		for (int n = 0; n < i.getWidth(); n += 5) {
+			for (int m = 0; m < i.getHeight(); m += 5) {
+				pix[0] = n;
+				pix[1] = m;
+				c = new Color(getRegionColor(i, n, m));
+				System.out.println("n: " + n + " m: " + m);
+				if(sameColor(c, d, 100)) {
+					coords = findRegionAlt(i, d, 100, pix);
+					return coords;
+				}
+			}
+		}
+		for (int n = 0; n < 4; n++) {
+			System.out.println(coords[n]);
+		}
+		return coords;
+	}
 	
 	public static boolean[] readTag(BufferedImage i) {
 		int[] bounds = findTag(i);
+		if (bounds[0] == 0 && bounds[1] == 0 && bounds[2] == 0 && bounds[3] == 0) {
+			boolean[] a = {false};
+			return a;
+		}
 		boolean[] binSeq = new boolean[8];
 		int y = (bounds[1] + bounds[3]) / 2;
 		int a = 0;
@@ -272,7 +303,24 @@ public class ImgRec {
 				s = false;
 			}
 		}
+		int height = bounds[3] - bounds[1];
+		fillSquare(i, bounds[0] - 10, bounds[1] - 10, bounds[0] + height + 10, bounds[3] + 10, Color.RED);
 		return binSeq;
+	}
+	
+	public static ArrayList<boolean[]> readAllTags(BufferedImage i) {
+		ArrayList<boolean[]> tags = new ArrayList<boolean[]>();
+		boolean[] tagNum;
+		boolean loop = true;
+		while(loop) {
+			tagNum = readTag(i);
+			if (tagNum.length != 1) {
+				tags.add(tagNum);
+			} else {
+				loop = false;
+			}
+		}
+		return tags;
 	}
 
 	public static void main(String[] args) throws IOException {
