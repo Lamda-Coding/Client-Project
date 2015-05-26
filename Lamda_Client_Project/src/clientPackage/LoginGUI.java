@@ -30,6 +30,7 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+@SuppressWarnings({ "serial", "unused" })
 public class LoginGUI extends JFrame{
 	JPanel panel=new JPanel();
 	JLabel info=new JLabel(" LAMDΛ Coding");
@@ -85,7 +86,8 @@ public class LoginGUI extends JFrame{
 		passpanel.add(submit);
 		passpanel.add(error);
 		submit.addActionListener(new ActionListener() {
-		    public void actionPerformed(ActionEvent e)
+		    @SuppressWarnings("deprecation")
+			public void actionPerformed(ActionEvent e)
 		    {
 		    	String one=pass1F.getText();
 		    	String two=pass2F.getText();
@@ -93,10 +95,8 @@ public class LoginGUI extends JFrame{
 		    		try {
 						repLine("password.txt",md5Hash(one));
 					} catch (IOException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					} catch (NoSuchAlgorithmException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 		    		passFrame.dispose();
@@ -173,7 +173,8 @@ public class LoginGUI extends JFrame{
 		    {
 		    	//setVisible(false);
 		    	String user=username.getText();
-		    	String pass=password.getText();
+		    	@SuppressWarnings("deprecation")
+				String pass=password.getText();
 		    	String passHash="";
 		    	try {
 					passHash=getLine("password.txt", 0);
@@ -197,10 +198,8 @@ public class LoginGUI extends JFrame{
 			    		}
 			    	}
 				} catch (UnsupportedEncodingException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				} catch (NoSuchAlgorithmException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 		    	/*if(user.equals("test1") && pass.equals("securePass")){ 
@@ -249,7 +248,8 @@ public class LoginGUI extends JFrame{
 		    {
 		    	//setVisible(false);
 		    	String user=username.getText();
-		    	String pass=password.getText();
+		    	@SuppressWarnings("deprecation")
+				String pass=password.getText();
 		    	String passHash="";
 		    	try {
 					passHash=getLine("password.txt", 0);
@@ -272,10 +272,8 @@ public class LoginGUI extends JFrame{
 			    		}
 			    	}
 				} catch (UnsupportedEncodingException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				} catch (NoSuchAlgorithmException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 		    	/*if(user.equals("test1") && pass.equals("securePass")){ 
@@ -289,7 +287,6 @@ public class LoginGUI extends JFrame{
 		    	}*/
 		    	//setVisible(true);
  catch (IOException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 		    	

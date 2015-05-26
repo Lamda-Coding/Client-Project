@@ -9,6 +9,7 @@ import java.io.File;
 
 import javax.imageio.ImageIO;
 
+@SuppressWarnings("unused")
 public class TagsTest {
 
 	public static void main(String[] args) throws IOException {

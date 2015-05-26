@@ -1,5 +1,5 @@
 package clientPackage;
-
+// Initialization of packages needed in the implementation of the GUI
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
@@ -10,22 +10,39 @@ import javax.swing.table.*;
 
 
 public class InventoryGUI extends JFrame {
+	// Initialization of variables required for use later in the program
+	private static final long serialVersionUID = 1L;
 	JTable table;
-	public static boolean yesno = false;
+	JPanel tablePanel;
+	ArrayList<ArrayList<String>> data;
+	ArrayList<ArrayList<ArrayList<String>>> Sheetdata;
+	public static int curSheet;
+	JFrame frame;
+	public static ExcelFile inventoryFile;
+	protected static String[] args;
+	public void setData(ArrayList<ArrayList<String>> dataA){
+		data=dataA;
+	}
+	public ArrayList<ArrayList<String>> getSheet(int x){
+		return Sheetdata.get(x-1);
+	}
 	public InventoryGUI() throws IOException {
 		// initializes the frame and two panels 
-		JFrame frame = new JFrame();
-		JPanel tablePanel = new JPanel();
+		inventoryFile= new ExcelFile("Inventory.xls");
+		frame = new JFrame();
+		tablePanel = new JPanel();
 		JPanel buttonPanel = new JPanel();
+		JPanel sheetPanel=new JPanel();
+		ArrayList<JButton> sheetButtons= new ArrayList<JButton>();
+		curSheet=0;
 		// initializations for the JFrame as a whole
-		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-		frame.setVisible(true);
+		//frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		//frame.setVisible(true);
 		frame.setTitle("VEX Component Catalogue");
-//		frame.getContentPane().setBackground(Color.CYAN);
 		frame.setResizable(false);
 		frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		frame.setSize(465, 500);
 		frame.setLocationRelativeTo(null);
-		//frame.setSize(660, 660);
 		// Sets the logo of LAMDA Coding in the top left
 		ImageIcon logoicon = new ImageIcon("logoReal.png");
 		Image logo = logoicon.getImage();
@@ -37,19 +54,53 @@ public class InventoryGUI extends JFrame {
 		int x = (dim.width-w)/2;
 		int y = (dim.height-h)/2;
 		// Initializes the table containing each of the values
-		ExcelFile f = new ExcelFile("Inventory.xls");
-		ArrayList<ArrayList<ArrayList<String>>> Sheetdata = f.readAll();
-		ArrayList<ArrayList<String>> data=Sheetdata.get(0);
-		System.out.println(data);
+		Sheetdata = inventoryFile.readAll();
+		data=Sheetdata.get(curSheet);
+		//System.out.println(data);
+		for(int i=0;i<Sheetdata.size();i++){
+			sheetButtons.add(new JButton("Sheet "+(i+1)));
+			sheetButtons.get(i).addActionListener(new SheetButtonActionListener(sheetButtons.get(i)){
+				@Override
+	            public void actionPerformed(ActionEvent e) {
+					setData(getSheet(this.getnum()));
+					curSheet=this.getnum()-1;
+					for (int i = 0; i<data.get(0).size(); i++){
+						//set headers...now need to update cells
+						table.getTableHeader().getColumnModel().getColumn(i).setHeaderValue(data.get(0).get(i));
+						for (int j=1;j<data.size();j++){
+							//System.out.println(data.get(j).get(i));
+							//System.out.println(data.get(i).toString());
+							//System.out.println(data.get(j).toString());
+							if (Character.isDigit((data.get(j).get(i).charAt(0)))){ //currently checks first; check all
+							// sets the value at a cell of the JTable to the corresponding excel cell as an integer 
+							// if it is found to be a number.
+								table.setValueAt(Integer.parseInt(data.get(j).get(i)), j-1, i);
+							}
+							//sets the value to the JTable cell without casting it to an integer.
+							else{
+								table.setValueAt((data.get(j).get(i)), j-1, i);
+								}
+						}
+					}
+					table.repaint();
+			        tablePanel.setVisible(false);
+			        tablePanel.setVisible(true);
+					
+	            }
+			});
+			sheetPanel.add(sheetButtons.get(i));
+		}
+		// Stores the first row in the Excel file which lists the column names in the array list columnNames 
 		Object columnNames[] = new Object[data.get(0).size()+2];
 		for (int i = 0; i<data.get(0).size(); i++){
 			columnNames[i] = data.get(0).get(i);
 		}
+		// Adds two columns at the end of the array list representing the headings for the check in and check out buttons
 		columnNames[data.get(0).size()] = "Check In (+1)";
 		columnNames[data.get(0).size()+1] = "Check Out (-1)";
 		
+		// Stores each remaining row from the excel file in the two dimensional array list rowData
 		Object rowData[][] = new Object[data.size()-1][data.get(0).size()+2];
-		
 		for (int i = 0; i<data.size()-1; i++){
 			for (int j = 0; j<data.get(0).size(); j++){
 				if (Character.isDigit((data.get(i+1).get(j).charAt(0)))) {
@@ -60,15 +111,13 @@ public class InventoryGUI extends JFrame {
 				}
 			}
 		}
+		// Adds two elements to the end of each row that will later be the buttons used to add and subtract the quantities of items.
 		for (int i = 0; i<data.size()-1; i++){
 			rowData[i][data.get(0).size()] = "+";
 			rowData[i][data.get(0).size()+1] = "-";
 		}
 		
-//		Object rowData[][] = { { "Item 1", 0, 128, "+", "-" },
-//		        			   { "Item 1", 0, 128, "+", "-" }, 
-//							   { "Item 1", 0, 128, "+", "-"  } };
-	    JTable table = new JTable(rowData, columnNames);
+	    table = new JTable(rowData, columnNames);
 	    // Renders the last two columns as buttons
 	    table.getColumn("Check In (+1)").setCellRenderer(new ButtonRenderer());
 	    table.getColumn("Check In (+1)").setCellEditor(new ButtonEditor(new JCheckBox()));
@@ -83,16 +132,28 @@ public class InventoryGUI extends JFrame {
 	    
 	    JScrollPane scrollPane = new JScrollPane(table);
 	    tablePanel.add(scrollPane, BorderLayout.CENTER);	//creates a panel containing the table
-	    //creates some button without a current use
+	    //creates some buttons without a current use
+	    JButton btnTag = new JButton("Make/Get Tags");
+	    btnTag.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				TagGUI.main(InventoryGUI.args);
+				
+			}
+	    	
+	    });
 	    JButton btnSave = new JButton("Save to File");
 	    JButton btnAdd = new JButton("Update from File");
+	    buttonPanel.add(btnTag);
 	    buttonPanel.add(btnAdd);
 	    buttonPanel.add(btnSave);
 	 // adds the panels to the frame and sets it to be visible
-		
+	    frame.getContentPane().add(sheetPanel, BorderLayout.NORTH);
 	    frame.getContentPane().add(tablePanel, BorderLayout.WEST);
 	    frame.getContentPane().add(buttonPanel, BorderLayout.SOUTH);
-	    //creates a menubar that allows for easy exit
+	    //creates a menu bar that allows for easy accessibility
 	    JMenuBar menuBar = new JMenuBar();
         JMenu menu = new JMenu("File");
         menuBar.add(menu);
@@ -115,6 +176,7 @@ public class InventoryGUI extends JFrame {
 	 * @param args
 	 * @throws IOException 
 	 */
+	// The main program runs the class above and ensures that the program stops upon exiting
 	public static void main(String[] args) throws IOException {
 		InventoryGUI frame = new InventoryGUI();
 	    frame.addWindowListener(new WindowAdapter() {
@@ -130,7 +192,13 @@ public class InventoryGUI extends JFrame {
 //The next several classes render and edit the buttons contained in the tables using the specific mouse click, and record the location of 
 //the mouse click relative to the table by storing the row and column of the click.
 class ButtonRenderer extends JButton implements TableCellRenderer {
-	  public ButtonRenderer() {
+	  /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+
+	public ButtonRenderer() {
 	    setOpaque(true);
 	  }
 
@@ -151,7 +219,11 @@ class ButtonRenderer extends JButton implements TableCellRenderer {
 	  }
 	}
 class ButtonEditor extends DefaultCellEditor {
-	  protected JButton button;
+	  /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	protected JButton button;
 	  private String label;
 	  
 	  private boolean isPushed;
@@ -181,7 +253,6 @@ class ButtonEditor extends DefaultCellEditor {
 	    try {
 			changeTable(table, row, column);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	    return button;
@@ -189,13 +260,16 @@ class ButtonEditor extends DefaultCellEditor {
 	  // This method adds or subtracts 1 from the Quantity depending on whether + or - are clicked
 	  public void changeTable(JTable table, int row, int col) throws IOException{
 		  if (isPushed){
-			  if (col==3){
+			  if (col==2){ //changed from 3 to 2 (might be formatting error for my excel file)
+				  //System.out.println((table.getValueAt(row,col-1)));
 				  table.setValueAt((Integer)(table.getValueAt(row,col-1))+1, row, col-1);
-				  new ExcelFile("Inventory.xls").write(0,row+1,col-1,String.valueOf(table.getValueAt(row,col-1)));
+				  System.out.println(InventoryGUI.curSheet);
+				  InventoryGUI.inventoryFile.write(InventoryGUI.curSheet,row+1,col-1,String.valueOf(table.getValueAt(row,col-1)));
 			  }
-			  else if (col==4){
+			  else if (col==3){ //changed from 4 to 3 (might be formatting error for my excel file)
+				  //System.out.println((table.getValueAt(row,col-2)));
 				  table.setValueAt((Integer)(table.getValueAt(row,col-2))-1, row, col-2);
-				  new ExcelFile("Inventory.xls").write(0,row+1,col-2,String.valueOf(table.getValueAt(row,col-2)));
+				  InventoryGUI.inventoryFile.write(InventoryGUI.curSheet,row+1,col-2,String.valueOf(table.getValueAt(row,col-2)));
 			  }
 			 
 		  }

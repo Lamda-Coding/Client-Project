@@ -9,6 +9,7 @@ import javax.swing.*;
 import javax.swing.table.*;
 
 
+@SuppressWarnings("serial")
 public class FrameClassV6 extends JFrame {
 	JTable table;
 	public static boolean yesno = false;
@@ -112,6 +113,7 @@ public class FrameClassV6 extends JFrame {
 
 //The next several classes render and edit the buttons contained in the tables using the specific mouse click, and record the location of 
 //the mouse click relative to the table by storing the row and column of the click.
+@SuppressWarnings("serial")
 class ButtonRenderer6 extends JButton implements TableCellRenderer {
 	  public ButtonRenderer6() {
 	    setOpaque(true);
@@ -133,6 +135,7 @@ class ButtonRenderer6 extends JButton implements TableCellRenderer {
 	    
 	  }
 	}
+@SuppressWarnings("serial")
 class ButtonEditor6 extends DefaultCellEditor {
 	  protected JButton button;
 	  private String label;

@@ -9,6 +9,10 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 public class BasicSwing extends JFrame{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	JPanel p=new JPanel();
 	JButton b=new JButton("Hello");
 	JTextField t=new JTextField("Hi",20);//one line;editable; text,column

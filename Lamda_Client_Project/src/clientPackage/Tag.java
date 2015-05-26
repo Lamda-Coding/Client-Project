@@ -16,6 +16,7 @@ import java.util.Scanner;
 
 import javax.imageio.ImageIO;
 
+@SuppressWarnings("unused")
 public class Tag {
 	// --------------------------------------Fields-------------------------------------
 	private BufferedImage tagPic = new BufferedImage(140, 40,
@@ -90,7 +91,6 @@ public class Tag {
 		try {
 			name = getLine("tags.txt", v); // get name from file
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		convBin(); // set binary
