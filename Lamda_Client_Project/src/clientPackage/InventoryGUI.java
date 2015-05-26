@@ -74,7 +74,7 @@ public class InventoryGUI extends JFrame {
 							//System.out.println(data.get(j).get(i));
 							//System.out.println(data.get(i).toString());
 							//System.out.println(data.get(j).toString());
-							if (Character.isDigit((data.get(j).get(i).charAt(0)))){ 
+							if (Character.isDigit((data.get(j).get(i).charAt(0)))){ //currently checks first; check all
 								table.setValueAt(Integer.parseInt(data.get(j).get(i)), j-1, i);
 							}
 							else{
