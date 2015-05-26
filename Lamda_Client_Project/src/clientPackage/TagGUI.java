@@ -5,6 +5,8 @@ import java.awt.Component;
 import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
@@ -14,14 +16,25 @@ public class TagGUI {
 	public static JTextField input;
 	public static JLabel output;
 	public static JLabel image;
-	public static void main(String[] args){
+	public static void main(final String[] args){
 		JFrame frame=new JFrame("Tags");
 		frame.setSize(500,250);
 		frame.setBackground(Color.WHITE);
 		ImageIcon img = new ImageIcon("lamda.png");
 		frame.setIconImage(img.getImage());
 		frame.setResizable(true);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.addWindowListener(new WindowAdapter(){
+			public void windowClosing(WindowEvent e){
+				//dispose();
+				try {
+					InventoryGUI.main(args);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
 		frame.setLocationRelativeTo(null);
 		JPanel panel=new JPanel();
 		JLabel title=new JLabel("Create or Get Existing Tag");
@@ -46,7 +59,8 @@ public class TagGUI {
 		    	if (Character.isDigit(tagName.charAt(0))){ //currently checks first character; check all chars
 		    		tagMade=new Tag(Integer.parseInt(tagName));
 		    	}
-		    	else{try {
+		    	else{
+		    	try {
 					tagMade=new Tag(tagName);
 				} catch (FileNotFoundException e1) {
 					// TODO Auto-generated catch block

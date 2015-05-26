@@ -15,9 +15,9 @@ public class InventoryGUI extends JFrame {
 	JTable table;
 	JPanel tablePanel;
 	ArrayList<ArrayList<String>> data;
-	ArrayList<ArrayList<ArrayList<String>>> Sheetdata;
+	static ArrayList<ArrayList<ArrayList<String>>> Sheetdata;
 	public static int curSheet;
-	JFrame frame;
+	public static JFrame frame;
 	public static ExcelFile inventoryFile;
 	protected static String[] args;
 	public void setData(ArrayList<ArrayList<String>> dataA){
@@ -139,16 +139,24 @@ public class InventoryGUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
+				InventoryGUI.frame.dispose();
 				TagGUI.main(InventoryGUI.args);
 				
 			}
 	    	
 	    });
-	    JButton btnSave = new JButton("Save to File");
-	    JButton btnAdd = new JButton("Update from File");
+	    //JButton btnSave = new JButton("Save to File");
+	    JButton btnAdd = new JButton("Auto-Update from Images");
+	    btnAdd.addActionListener(new ActionListener(){
+	    	@Override
+	    	public void actionPerformed(ActionEvent arg0){
+	    		InventoryGUI.frame.dispose();
+	    		Iterate.main(args);
+	    	}
+	    });
 	    buttonPanel.add(btnTag);
 	    buttonPanel.add(btnAdd);
-	    buttonPanel.add(btnSave);
+	    //buttonPanel.add(btnSave);
 	 // adds the panels to the frame and sets it to be visible
 	    frame.getContentPane().add(sheetPanel, BorderLayout.NORTH);
 	    frame.getContentPane().add(tablePanel, BorderLayout.WEST);
@@ -260,15 +268,18 @@ class ButtonEditor extends DefaultCellEditor {
 	  // This method adds or subtracts 1 from the Quantity depending on whether + or - are clicked
 	  public void changeTable(JTable table, int row, int col) throws IOException{
 		  if (isPushed){
-			  if (col==2){ //changed from 3 to 2 (might be formatting error for my excel file)
+			  if (col==3){ //changed from 3 to 2 (might be formatting error for my excel file)
 				  //System.out.println((table.getValueAt(row,col-1)));
 				  table.setValueAt((Integer)(table.getValueAt(row,col-1))+1, row, col-1);
-				  System.out.println(InventoryGUI.curSheet);
+				  //System.out.println(InventoryGUI.Sheetdata);
+				  InventoryGUI.Sheetdata.get(InventoryGUI.curSheet).get(row+1).set(col-1,String.valueOf(table.getValueAt(row,col-1)));
+				  //System.out.println(InventoryGUI.Sheetdata);
 				  InventoryGUI.inventoryFile.write(InventoryGUI.curSheet,row+1,col-1,String.valueOf(table.getValueAt(row,col-1)));
 			  }
-			  else if (col==3){ //changed from 4 to 3 (might be formatting error for my excel file)
+			  else if (col==4){ //changed from 4 to 3 (might be formatting error for my excel file)
 				  //System.out.println((table.getValueAt(row,col-2)));
 				  table.setValueAt((Integer)(table.getValueAt(row,col-2))-1, row, col-2);
+				  InventoryGUI.Sheetdata.get(InventoryGUI.curSheet).get(row+1).set(col-2,String.valueOf(table.getValueAt(row,col-2)));
 				  InventoryGUI.inventoryFile.write(InventoryGUI.curSheet,row+1,col-2,String.valueOf(table.getValueAt(row,col-2)));
 			  }
 			 
