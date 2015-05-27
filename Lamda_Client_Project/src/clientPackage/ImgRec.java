@@ -263,7 +263,7 @@ public class ImgRec {
 				pix[0] = n;
 				pix[1] = m;
 				c = new Color(getRegionColor(i, n, m));
-				System.out.println("n: " + n + " m: " + m);
+				//System.out.println("n: " + n + " m: " + m);
 				if(sameColor(c, d, 100)) {
 					coords = findRegionAlt(i, d, 100, pix);
 					return coords;
@@ -271,7 +271,7 @@ public class ImgRec {
 			}
 		}
 		for (int n = 0; n < 4; n++) {
-			System.out.println(coords[n]);
+			//System.out.println(coords[n]);
 		}
 		return coords;
 	}
@@ -290,16 +290,16 @@ public class ImgRec {
 			i.setRGB(n, y, Color.GREEN.getRGB());
 			Color pColor =  new Color(getRegionColor(i, n, y));
 			if (sameColor(pColor, Color.BLACK, 100)) {
-				System.out.println("black");
+				//System.out.println("black");
 				binSeq[a] = true;
 				s = true;
 			} else if (sameColor(pColor, new Color(200, 200, 200), 100)) {
-				System.out.println("white");
+				//System.out.println("white");
 				s = true;
 				binSeq[a] = false;
 			} else if (sameColor(pColor, new Color(190, 60, 60), 100) && s) {
 				a++;
-				System.out.println("moving on");
+				//System.out.println("moving on");
 				s = false;
 			}
 		}
@@ -308,7 +308,7 @@ public class ImgRec {
 		return binSeq;
 	}
 	
-	public static ArrayList<boolean[]> readAllTags(BufferedImage i) {
+	public static int[] readAllTags(BufferedImage i) {
 		ArrayList<boolean[]> tags = new ArrayList<boolean[]>();
 		boolean[] tagNum;
 		boolean loop = true;
@@ -320,7 +320,11 @@ public class ImgRec {
 				loop = false;
 			}
 		}
-		return tags;
+		int[] tagsDec = new int[tags.size()];
+		for (int n = 0; n < tags.size(); n++) {
+			tagsDec[n] = (Tag.convDec(tags.get(n)));
+		}
+		return tagsDec;
 	}
 
 	public static void main(String[] args) throws IOException {

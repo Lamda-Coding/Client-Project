@@ -13,14 +13,15 @@ import javax.imageio.ImageIO;
 public class TagsTest {
 
 	public static void main(String[] args) throws IOException {
+		
 		BufferedImage i = null;
 		try {
 			i = ImageIO.read(new File("tagA.jpg"));
 		} catch (IOException e) {
 		}
-		ArrayList<boolean[]> tags = ImgRec.readAllTags(i);
-		for (int n = 0; n < tags.size(); n++) {
-			System.out.println(Tag.convDec(tags.get(n)));
+		int[] tags = ImgRec.readAllTags(i);
+		for (int n = 0; n < tags.length; n++) {
+			System.out.println(tags[n]);
 		}
 		//boolean[] coords = ImgRec.readTag(i);
 		//int a = Tag.convDec(coords);
@@ -30,5 +31,7 @@ public class TagsTest {
 		ImageIO.write(i, "PNG", f);
 		//PieceType l = new PieceType("elpieco");
 		//l.getTag();
+		PieceType t = new PieceType("somepiece");
+		t.getTag();
 	}
 }
