@@ -151,7 +151,8 @@ public class InventoryGUI extends JFrame {
 	    	@Override
 	    	public void actionPerformed(ActionEvent arg0){
 	    		InventoryGUI.frame.dispose();
-	    		Iterate.iter("/");
+	    		Iterate.iter("AddInventory",1);
+	    		Iterate.iter("RemoveInventory",-1);
 	    	}
 	    });
 	    buttonPanel.add(btnTag);
