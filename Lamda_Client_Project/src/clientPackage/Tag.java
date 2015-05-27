@@ -50,17 +50,18 @@ public class Tag {
 			}
 		}
 		if (val == -1) { // If not found
-				val = tagsList.size(); // value is last line number
+				val = tagsList.size()-1; // value is last line number
 				for(int x=0;x<InventoryGUI.Sheetdata.size();x++){
+					//System.out.println(x);
 					//Null pointer exception?
 					//null pointer exception when trying more than once
 					//InventoryGUI.inventoryFile.write(x,tagsList.size(),0,n);
-					add(0,tagsList.size(),0,n);
+					add(x,tagsList.size(),0,n);
 					String valS=String.valueOf(val);
 					//InventoryGUI.inventoryFile.write(x,tagsList.size(),1,valS);
-					add(0,tagsList.size(),0,n);
+					add(x,tagsList.size(),1,valS);
 					//InventoryGUI.inventoryFile.write(x,tagsList.size(),2,"0");
-					add(0,tagsList.size(),2,"0");
+					add(x,tagsList.size(),2,"0");
 				//addLine("tags.txt", n); // add part to the file
 				}
 				//Write to excel file
