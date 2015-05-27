@@ -5,7 +5,6 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Cell;
-
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -87,30 +86,23 @@ public class ExcelFile {
         
 	}
 	
-	public String read(int s, int r, int c){
-		return null;
-	}
-	
 	//Writes data from the java application to the Excel file so it can be saved
 	public void write(int s, int r, int c, String val){	
 		try {
 		   FileInputStream file = new FileInputStream(name);
 		    
 		    HSSFSheet sheet = (HSSFSheet) workbook.getSheetAt(s);
-		    Cell cell = null;
-		 
-		    //Finds a cell, only works if that cell already has a value
-		    try{
-		    	cell = sheet.getRow(r).getCell(c);
-		    } catch (NullPointerException e){
-		    	try{
-		    	cell = sheet.createRow(r).createCell(c);
-		    	} catch (NullPointerException e1){
-		    		cell = sheet.getRow(r).createCell(c);
-		    	}
-		    }
 		    
-	    	cell.setCellValue(val);
+		    Row row =  sheet.getRow(r);
+            if (row == null){
+                row = sheet.createRow(r);
+            }
+            Cell cell = row.getCell(c);
+            if (cell == null){
+                cell = row.createCell(c);
+            }
+            cell.setCellValue(val);
+		    
 	    	file.close();
 	     
 	    	FileOutputStream outFile = new FileOutputStream(name);
