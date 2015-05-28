@@ -28,7 +28,7 @@ public class InventoryGUI extends JFrame {
 	}
 	public InventoryGUI() throws IOException {
 		// initializes the frame and two panels 
-		inventoryFile= new ExcelFile("Inventory.xls");
+		inventoryFile= new ExcelFile("Read/Inventory.xls");
 		frame = new JFrame();
 		tablePanel = new JPanel();
 		JPanel buttonPanel = new JPanel();
@@ -44,7 +44,7 @@ public class InventoryGUI extends JFrame {
 		frame.setSize(465, 500);
 		frame.setLocationRelativeTo(null);
 		// Sets the logo of LAMDA Coding in the top left
-		ImageIcon logoicon = new ImageIcon("logoReal.png");
+		ImageIcon logoicon = new ImageIcon("Read/logo.png");
 		Image logo = logoicon.getImage();
 		frame.setIconImage(logo);
 		// Sets the dimensions of the frame

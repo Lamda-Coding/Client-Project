@@ -91,7 +91,7 @@ public class Tag {
 	}
 
 	public void writeTag() throws IOException {
-		File f = new File(name + val + ".png");
+		File f = new File("Tags/"+name + val + ".png");
 		ImageIO.write(tagPic, "PNG", f);
 	}
 
