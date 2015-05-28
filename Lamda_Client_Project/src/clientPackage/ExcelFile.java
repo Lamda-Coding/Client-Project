@@ -32,6 +32,9 @@ public class ExcelFile {
 			System.out.println("Sheet already exists");
 		}
 	}
+	public String getSName(int i){
+		return(workbook.getSheetName(i));
+	}
 		
 	public ArrayList<ArrayList<ArrayList<String>>> readAll(){
         try {

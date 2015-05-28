@@ -3,7 +3,11 @@ package clientPackage;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
+import java.sql.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import javax.swing.*;
 import javax.swing.table.*;
@@ -17,6 +21,7 @@ public class InventoryGUI extends JFrame {
 	ArrayList<ArrayList<String>> data;
 	static ArrayList<ArrayList<ArrayList<String>>> Sheetdata;
 	public static int curSheet;
+	public static int last;
 	public static JFrame frame;
 	public static ExcelFile inventoryFile;
 	protected static String[] args;
@@ -24,7 +29,7 @@ public class InventoryGUI extends JFrame {
 		data=dataA;
 	}
 	public ArrayList<ArrayList<String>> getSheet(int x){
-		return Sheetdata.get(x-1);
+		return Sheetdata.get(x);
 	}
 	public InventoryGUI() throws IOException {
 		// initializes the frame and two panels 
@@ -36,30 +41,32 @@ public class InventoryGUI extends JFrame {
 		ArrayList<JButton> sheetButtons= new ArrayList<JButton>();
 		curSheet=0;
 		// initializations for the JFrame as a whole
+		//frame.setSize(465, 500);
 		//frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		//frame.setVisible(true);
 		frame.setTitle("VEX Component Catalogue");
-		frame.setResizable(false);
+		frame.setResizable(true);
 		frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		frame.setSize(465, 500);
+		// Sets the dimensions of the frame
+				Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+				int w = getSize().width;
+				int h = getSize().height;
+				int x = (dim.width-w)/2;
+				int y = (dim.height-h)/2;
+		frame.setSize(x, y);
 		frame.setLocationRelativeTo(null);
 		// Sets the logo of LAMDA Coding in the top left
 		ImageIcon logoicon = new ImageIcon("Read/logo.png");
 		Image logo = logoicon.getImage();
 		frame.setIconImage(logo);
-		// Sets the dimensions of the frame
-		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-		int w = getSize().width;
-		int h = getSize().height;
-		int x = (dim.width-w)/2;
-		int y = (dim.height-h)/2;
+		
 		// Initializes the table containing each of the values
 		Sheetdata = inventoryFile.readAll();
 		data=Sheetdata.get(curSheet);
 		//System.out.println(data);
 		for(int i=0;i<Sheetdata.size();i++){
-			sheetButtons.add(new JButton("Sheet "+(i+1)));
-			sheetButtons.get(i).addActionListener(new SheetButtonActionListener(sheetButtons.get(i)){
+			sheetButtons.add(new JButton(inventoryFile.getSName(i)));
+			sheetButtons.get(i).addActionListener(new SheetButtonActionListener(sheetButtons.get(i),i){
 				@Override
 	            public void actionPerformed(ActionEvent e) {
 					setData(getSheet(this.getnum()));
@@ -89,7 +96,33 @@ public class InventoryGUI extends JFrame {
 	            }
 			});
 			sheetPanel.add(sheetButtons.get(i));
+			last=i+1;
 		}
+		JButton copyButton=new JButton("Copy to new sheet");
+		sheetPanel.add(copyButton);
+		JScrollPane sheetscrollPane = new JScrollPane(sheetPanel,JScrollPane.VERTICAL_SCROLLBAR_NEVER,
+	            JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+		copyButton.addActionListener(new SheetButtonActionListener(copyButton,last){
+			@Override
+            public void actionPerformed(ActionEvent e) {
+				InventoryGUI.frame.dispose();
+				DateFormat dateFormat = new SimpleDateFormat("MM-dd-yy");
+				Calendar cal = Calendar.getInstance();
+				String s=(dateFormat.format(cal.getTime()));
+				inventoryFile.createSheet(s);
+				for(int i=0;i<data.size();i++){
+					for(int j=0;j<data.get(i).size();j++){
+						inventoryFile.write(last,i,j,data.get(i).get(j));
+					}
+				}
+				try {
+					InventoryGUI.main(args);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
 		// Stores the first row in the Excel file which lists the column names in the array list columnNames 
 		Object columnNames[] = new Object[data.get(0).size()+2];
 		for (int i = 0; i<data.get(0).size(); i++){
@@ -159,8 +192,8 @@ public class InventoryGUI extends JFrame {
 	    buttonPanel.add(btnAdd);
 	    //buttonPanel.add(btnSave);
 	 // adds the panels to the frame and sets it to be visible
-	    frame.getContentPane().add(sheetPanel, BorderLayout.NORTH);
-	    frame.getContentPane().add(tablePanel, BorderLayout.WEST);
+	    frame.getContentPane().add(sheetscrollPane, BorderLayout.NORTH);
+	    frame.getContentPane().add(tablePanel, BorderLayout.CENTER);
 	    frame.getContentPane().add(buttonPanel, BorderLayout.SOUTH);
 	    //creates a menu bar that allows for easy accessibility
 	    JMenuBar menuBar = new JMenuBar();

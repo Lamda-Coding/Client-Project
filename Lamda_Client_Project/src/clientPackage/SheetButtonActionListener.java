@@ -9,10 +9,10 @@ public class SheetButtonActionListener implements ActionListener {
 	public int snum;
 	public JButton b;
 
-	public SheetButtonActionListener(JButton a){
+	public SheetButtonActionListener(JButton a, int i){
 		b=a;
-		String p=(b.getText());
-		snum=Integer.parseInt(p.substring(p.length()-1));
+		//String p=(b.getText());
+		snum=i;
 		
 	}
 	public int getnum(){
