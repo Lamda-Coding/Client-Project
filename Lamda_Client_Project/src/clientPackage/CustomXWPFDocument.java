@@ -2,6 +2,8 @@ package clientPackage;
 
 /* Code copied from the link below
  * http://stackoverflow.com/questions/7674115/how-to-add-a-picture-to-a-docx-document-with-apache-poi-xwpf-in-java
+ * This code allows images to be written to "docx" files
+ * It is used in WordFile.java
  */
 
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
