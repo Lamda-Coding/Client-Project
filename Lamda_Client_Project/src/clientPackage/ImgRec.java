@@ -153,44 +153,7 @@ public class ImgRec {
 		return x;
 	}
 	
-	//finds a square region of color c on i with sensitivity e
-	//used for testing purposes only
-	public static int[] findRegion(BufferedImage i, Color c, int e) {
-		int[] region = new int[4];
-		Color x;
-		int n = 0;
-		int m = 0;
-		int xVal = 0;
-		int yVal = 0;
-		boolean size = false;
-			for (m = 0; m < i.getHeight() - 5; m += 5) {	//loops through all pixels
-				for (n = 0; n < i.getWidth() - 5; n += 5) {
-					x = new Color(i.getRGB(n, m));	//set x to current pixel
-					if (sameColor(c, x, e)) {	//test whether current pixel is same as target
-						xVal = n;
-						yVal = m;
-						if (xVal <= i.getWidth() && yVal <= i.getHeight()) {	//test whether current pixel is in range
-							region[0] = getLeft(i, xVal, yVal, c, e);	//finds bounds starting at current pixel
-							region[1] = getTop(i, xVal, yVal, c, e);
-							region[2] = getRight(i, xVal, yVal, c, e);
-							region[3] = getBottom(i, xVal, yVal, c, e);
-							size = (region[2] - region[0]) * (region[3] - region[1]) > (i.getWidth() / 6 * i.getHeight() / 6);	//calculates size of region
-							if (size) {	//tests whether size is large enough
-								m = i.getHeight();	//ends loop
-								n = i.getWidth();
-							}
-						} else {
-							System.out.println("nothing recognized");
-							m = i.getHeight();	//ends loop
-							n = i.getWidth();
-						}
-					}
-				}
-			}
-		return region;
-	}
-	
-	//same as findRegion but starts at startCoords rather than (0, 0)
+	//finds a square region of color c on i with sensitivity e starting at startCoords
 	public static int[] findRegionAlt(BufferedImage i, Color c, int e, int[] startCoords) {
 		int[] region = new int[4];
 		Color x;
