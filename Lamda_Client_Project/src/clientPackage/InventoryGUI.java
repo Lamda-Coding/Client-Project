@@ -41,9 +41,6 @@ public class InventoryGUI extends JFrame {
 		ArrayList<JButton> sheetButtons= new ArrayList<JButton>();
 		curSheet=0;
 		// initializations for the JFrame as a whole
-		//frame.setSize(465, 500);
-		//frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-		//frame.setVisible(true);
 		frame.setTitle("VEX Component Catalogue");
 		frame.setResizable(true);
 		frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -60,10 +57,10 @@ public class InventoryGUI extends JFrame {
 		Image logo = logoicon.getImage();
 		frame.setIconImage(logo);
 		
-		// Initializes the table containing each of the values
+		// Accesses the data for all the data contained in each sheet of the Excel file
 		Sheetdata = inventoryFile.readAll();
-		data=Sheetdata.get(curSheet);
-		//System.out.println(data);
+		data=Sheetdata.get(curSheet);	//stores the data in one sheet in the 2D array list data
+		// Allows sheet data to be accessed with the click of a button
 		for(int i=0;i<Sheetdata.size();i++){
 			sheetButtons.add(new JButton(inventoryFile.getSName(i)));
 			sheetButtons.get(i).addActionListener(new SheetButtonActionListener(sheetButtons.get(i),i){
@@ -72,12 +69,9 @@ public class InventoryGUI extends JFrame {
 					setData(getSheet(this.getnum()));
 					curSheet=this.getnum()-1;
 					for (int i = 0; i<data.get(0).size(); i++){
-						//set headers...now need to update cells
+						//
 						table.getTableHeader().getColumnModel().getColumn(i).setHeaderValue(data.get(0).get(i));
 						for (int j=1;j<data.size();j++){
-							//System.out.println(data.get(j).get(i));
-							//System.out.println(data.get(i).toString());
-							//System.out.println(data.get(j).toString());
 							if (Character.isDigit((data.get(j).get(i).charAt(0)))){ //currently checks first; check all
 							// sets the value at a cell of the JTable to the corresponding excel cell as an integer 
 							// if it is found to be a number.
