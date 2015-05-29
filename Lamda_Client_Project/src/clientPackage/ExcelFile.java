@@ -18,31 +18,47 @@ public class ExcelFile {
 	private Workbook workbook;
 	private ArrayList<ArrayList<ArrayList<String>>> data;
 	
+	/*When the constructor is called it opens the specified excel document
+	*If one does not exist then, one is created under "name"
+	*The path for where the file is located is contained in name
+	*A 3D arrayList is created. This is where data will be stored from excel
+	*/
 	public ExcelFile(String n) throws IOException{
 		name = n;
 		try{
+			//Creating a file input stream allows for a file to be updated rather than overwritten
 			FileInputStream file = new FileInputStream(name);
 			workbook = new HSSFWorkbook(file);
 		}catch (FileNotFoundException e){
 			workbook = new HSSFWorkbook();
 		}
 		data = new ArrayList<ArrayList<ArrayList<String>>>();
+		//Creating a file output stream allows for a file to be written to
     		FileOutputStream out = new FileOutputStream(name);
     		workbook.write(out);
     		out.close();
 	}
-
+	
+	/* This tries to create a new sheet in the excel file
+	* If that she already exists then the error is caught.
+	*/
 	public void createSheet(String n){
 		try{
 			workbook.createSheet(n);
 		} catch (java.lang.IllegalArgumentException e){
 			System.out.println("Sheet already exists");
 		}
+	
+	/* Getter method for the sheet name at a certain position
+	*/
 	}
 	public String getSName(int i){
 		return(workbook.getSheetName(i));
 	}
-		
+	
+	/* reads all of the data in an excel file and stores it in a 3d array list
+	* the method iterates through every column, in every row, in each sheet
+	*/
 	public ArrayList<ArrayList<ArrayList<String>>> readAll(){
         try {
             
@@ -104,6 +120,10 @@ public class ExcelFile {
 		    HSSFSheet sheet = (HSSFSheet) workbook.getSheetAt(s);
 		    
 		    Row row =  sheet.getRow(r);
+		    
+	    /*Allows cells which already have values to be updated
+	    * Those that do not have values created and given values
+	    */
             if (row == null){
                 row = sheet.createRow(r);
             }
@@ -127,7 +147,7 @@ public class ExcelFile {
 		
 	}
 		
-	
+	//This funciton deletes an entire row from the Excel File
 	public void deleteRow(int s, int r){
 		
 		try{
@@ -151,6 +171,7 @@ public class ExcelFile {
        
 	}
 	
+	//Getter method for the number of sheets in the Excel File
 	public int getNumOfSheets(){
 		return workbook.getNumberOfSheets();
 	}
