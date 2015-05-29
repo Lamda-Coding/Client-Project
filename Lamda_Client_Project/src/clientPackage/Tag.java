@@ -73,26 +73,28 @@ public class Tag {
 		//System.out.println(val);
 		//System.out.println(lines("tags.txt"));
 	}
-
+	
+	//generates a new tag image
 	public void makeTag() throws IOException {
-		ImgRec.fillSquare(tagPic, 0, 0, 19, 39, Color.CYAN);
-		ImgRec.drawSquare(tagPic, 0, 0, 19, 39, 4, Color.RED);
+		ImgRec.fillSquare(tagPic, 0, 0, 19, 39, Color.CYAN);	//draws blue region
+		ImgRec.drawSquare(tagPic, 0, 0, 19, 39, 4, Color.RED);	//draws box around blue region
 		Color c;
-		for (int n = 20; n < 140; n += 15) {
-			if (valBin[(n - 20) / 15] == true) {
+		for (int n = 20; n < 140; n += 15) {	//loop through x columns
+			if (valBin[(n - 20) / 15] == true) {	//tests whether current region should be black or white
 				c = Color.BLACK;
 			} else {
 				c = Color.WHITE;
 			}
-			ImgRec.fillSquare(tagPic, n, 0, n + 15, 39, c);
-			ImgRec.drawSquare(tagPic, n - 1, 0, n + 14, 39, 4, Color.RED);
+			ImgRec.fillSquare(tagPic, n, 0, n + 15, 39, c);	//fill current region with appropriate color
+			ImgRec.drawSquare(tagPic, n - 1, 0, n + 14, 39, 4, Color.RED);	//draw red square around current region
 		}
-		writeTag();
+		writeTag();	//generate the new tag
 	}
-
+	
+	//generates a tag that has already been created
 	public void writeTag() throws IOException {
-		File f = new File("Tags/"+name + val + ".png");
-		ImageIO.write(tagPic, "PNG", f);
+		File f = new File("Tags/"+name + val + ".png");	//creates a new file with appropriate name and corresponding id number
+		ImageIO.write(tagPic, "PNG", f);	//writes file as a png
 	}
 
 	public Tag(int v) { // find tag for value at v
@@ -130,12 +132,13 @@ public class Tag {
 			}
 		}
 	}
-
+	
+	//finds the decimal number represented by binary sequence a
 	public static int convDec(boolean[] a) {
 		int val = 0;
-		for (int n = 0; n < a.length; n++) {
+		for (int n = 0; n < a.length; n++) {	//loops through binary sequence
 			if (a[n])
-				val += Math.pow(2, a.length - n - 1);
+				val += Math.pow(2, a.length - n - 1);	//adds correct power of 2 to val
 		}
 		return val;
 	}
@@ -143,22 +146,22 @@ public class Tag {
 	// ----------------------Text Editing Methods----------------------------
 	// returns amount of lines in the file
 	public static int lines(String file) throws FileNotFoundException {
-		Scanner sc = new Scanner(new File(file));
+		Scanner sc = new Scanner(new File(file));	//creates sc to read from file
 		int count = 0;
-		while (sc.hasNextLine()) {
-			count++;
+		while (sc.hasNextLine()) {	//runs through each line n file
+			count++;	//counts number of lines that have been read
 			sc.nextLine();
 		}
 		sc.close();
 		return count;
 	}
 
-	// returns specified line
+	// returns specified line l in file
 	public static String getLine(String file, int l) throws IOException {
 		l += 1;
 		FileInputStream fs = new FileInputStream(file);
-		BufferedReader br = new BufferedReader(new InputStreamReader(fs));
-		for (int i = 0; i < l - 1; ++i) {
+		BufferedReader br = new BufferedReader(new InputStreamReader(fs));	//create br to read from file
+		for (int i = 0; i < l - 1; ++i) {	//runs through file until line l is reached
 			if (!(lines(file) <= i)) {
 				br.readLine();
 			} else {
@@ -166,16 +169,16 @@ public class Tag {
 				return "";
 			}
 		}
-		String temp = br.readLine();
+		String temp = br.readLine();	//sets temp to content of line l
 		br.close();
 		return temp;
 	}
 
-	// writes line to end of file
+	// writes line s to end of file
 	public static void addLine(String file, String s) throws IOException {
 		FileWriter t = new FileWriter(file, true);
-		BufferedWriter bufferWritter = new BufferedWriter(t);
-		bufferWritter.write(s + "\n");
+		BufferedWriter bufferWritter = new BufferedWriter(t);	//creates bufferWriter to write to file
+		bufferWritter.write(s + "\n");	//writes s to end of file
 		bufferWritter.close();
 	}
 
