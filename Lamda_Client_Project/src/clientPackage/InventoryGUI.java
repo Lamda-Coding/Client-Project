@@ -103,7 +103,18 @@ public class InventoryGUI extends JFrame {
 				DateFormat dateFormat = new SimpleDateFormat("MM-dd-yy");
 				Calendar cal = Calendar.getInstance();
 				String s=(dateFormat.format(cal.getTime()));
-				inventoryFile.createSheet(s);
+				boolean flag=true;
+				while(flag){
+					try {
+						inventoryFile.createSheet(s);
+						flag=false;
+					} catch (Exception e2) {
+						s+="new";
+						System.out.println(s);
+						// TODO Auto-generated catch block
+						//e2.printStackTrace();
+					}
+				}
 				for(int i=0;i<data.size();i++){
 					for(int j=0;j<data.get(i).size();j++){
 						inventoryFile.write(last,i,j,data.get(i).get(j));

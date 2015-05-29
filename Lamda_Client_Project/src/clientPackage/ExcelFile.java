@@ -5,6 +5,7 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Cell;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -14,6 +15,7 @@ import java.util.Iterator;
 
 @SuppressWarnings("unused")
 public class ExcelFile {
+	private static final Exception SheetExists = new Exception("Sheet Exists");
 	private String name;
 	private Workbook workbook;
 	private ArrayList<ArrayList<ArrayList<String>>> data;
@@ -42,11 +44,12 @@ public class ExcelFile {
 	/* This tries to create a new sheet in the excel file
 	* If that she already exists then the error is caught.
 	*/
-	public void createSheet(String n){
+	public void createSheet(String n) throws Exception{
 		try{
 			workbook.createSheet(n);
 		} catch (java.lang.IllegalArgumentException e){
-			System.out.println("Sheet already exists");
+			throw SheetExists;
+			//System.out.println("Sheet already exists");
 		}
 	
 	/* Getter method for the sheet name at a certain position

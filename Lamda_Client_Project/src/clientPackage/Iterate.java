@@ -24,7 +24,7 @@ public class Iterate {
 					System.out.println(x);
 					for(int j=0;j<InventoryGUI.Sheetdata.get(0).size();j++){ //get all rows in sheet
 						if(InventoryGUI.Sheetdata.get(0).get(j).get(1).equals(String.valueOf(x))){
-							System.out.println("found");
+							//System.out.println("found");
 							InventoryGUI.inventoryFile.write(InventoryGUI.curSheet,j,2,String.valueOf(Integer.parseInt(InventoryGUI.Sheetdata.get(0).get(j).get(2))+num));
 						}
 					}

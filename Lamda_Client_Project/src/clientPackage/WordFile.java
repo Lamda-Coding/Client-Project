@@ -19,13 +19,13 @@ public class WordFile {
           name = n;
           try{
               //Creating an input stream allows a file to be updated rather than overwritten
-              FileInputStream file = new FileInputStream("C:\\Users\\Andrew\\Desktop\\"+ name + ".docx");
+              FileInputStream file = new FileInputStream(name + ".docx");
         	  doc = new XWPFDocument(file);
           }catch (FileNotFoundException e){
         	  doc = new XWPFDocument();
           }
           //Creating an output stream allows a file to be written to
-          FileOutputStream fos = new FileOutputStream(new File("C:\\Users\\Andrew\\Desktop\\"+ name + ".docx"));   
+          FileOutputStream fos = new FileOutputStream(new File(name + ".docx"));   
           doc.write(fos);   
           fos.close();   
      }
@@ -36,10 +36,10 @@ public class WordFile {
      */
      public void writeImg(String path, int l, int w) throws InvalidFormatException, IOException{
     	 
-    	 FileInputStream file = new FileInputStream("C:\\Users\\Andrew\\Desktop\\"+ name + ".docx");
+    	 FileInputStream file = new FileInputStream(name + ".docx");
      
-    	 CustomXWPFDocument document = new CustomXWPFDocument(new FileInputStream(new File("C:\\Users\\Andrew\\Desktop\\" + name + ".docx")));
-    	 FileOutputStream fos = new FileOutputStream(new File("C:\\Users\\Andrew\\Desktop\\" + name + ".docx"));
+    	 CustomXWPFDocument document = new CustomXWPFDocument(new FileInputStream(new File(name + ".docx")));
+    	 FileOutputStream fos = new FileOutputStream(new File(name + ".docx"));
 
     	 String blipId = document.addPictureData(new FileInputStream(new File(path)), document.PICTURE_TYPE_JPEG);
 
