@@ -14,7 +14,6 @@ import javax.imageio.ImageIO;
 public class ImgRec {
 	
 	//draws line on image i from (x1, y1) to (x2, y2) with size bw and color c
-	//used for testing purposes only
 	public static void drawLine(BufferedImage i, int x1, int y1, int x2,
 			int y2, int bw, Color c) {
 		boolean useX = x2 - x1 > y2 - y1;	//determines whether to iterate through x or y first as to avoid infinite slopes
@@ -44,7 +43,6 @@ public class ImgRec {
 	}
 	
 	//draws square on i from (x, y) to (w, h) with brush size bw and color c
-	//used for testing purposes only
 	public static void drawSquare(BufferedImage i, int x, int y, int w, int h,
 			int bw, Color c) {
 		drawLine(i, x, y, w, y, bw, c);	//draws 4 lines to make the square
