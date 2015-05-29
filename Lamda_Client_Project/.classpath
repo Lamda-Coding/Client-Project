@@ -3,5 +3,10 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
 	<classpathentry kind="lib" path="poi-3.12-20150511.jar"/>
+	<classpathentry kind="lib" path="/Users/Azeem/git/Lamda Client Project/Lamda_Client_Project/poi-3.12-20150511.jar"/>
+	<classpathentry kind="lib" path="/Users/Azeem/git/Lamda Client Project/Lamda_Client_Project/poi-ooxml-3.12-20150511.jar"/>
+	<classpathentry kind="lib" path="/Users/Azeem/git/Lamda Client Project/Lamda_Client_Project/poi-ooxml-schemas-3.12-20150511.jar"/>
+	<classpathentry kind="lib" path="/Users/Azeem/git/Lamda Client Project/Lamda_Client_Project/poi-scratchpad-3.12-20150511.jar"/>
+	<classpathentry kind="lib" path="/Users/Azeem/git/Lamda Client Project/Lamda_Client_Project/xmlbeans-2.6.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

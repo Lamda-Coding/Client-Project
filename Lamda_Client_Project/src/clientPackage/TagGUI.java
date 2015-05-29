@@ -20,7 +20,7 @@ public class TagGUI {
 		JFrame frame=new JFrame("Tags");
 		frame.setSize(500,250);
 		frame.setBackground(Color.WHITE);
-		ImageIcon img = new ImageIcon("lamda.png");
+		ImageIcon img = new ImageIcon("Read/logo.png");
 		frame.setIconImage(img.getImage());
 		frame.setResizable(true);
 		//frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -69,9 +69,9 @@ public class TagGUI {
 		    	try {
 					tagMade.makeTag();
 					tagMade.writeTag();
-					output.setText("Tag saved in file "+tagMade.getName()+tagMade.getVal()+".png");
+					output.setText("Tag saved in file Tags/"+tagMade.getName()+tagMade.getVal()+".png");
 					//image=new JLabel(new ImageIcon(tagMade.getName()+tagMade.getVal()+".png"));
-					image.setIcon(new ImageIcon(tagMade.getName()+tagMade.getVal()+".png"));
+					image.setIcon(new ImageIcon("Tags/"+tagMade.getName()+tagMade.getVal()+".png"));
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();

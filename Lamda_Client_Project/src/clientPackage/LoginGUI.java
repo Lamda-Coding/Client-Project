@@ -42,7 +42,7 @@ public class LoginGUI extends JFrame{
 	JButton submit=new JButton("Submit");
 	JButton change=new JButton("Change Password");
 	JLabel output=new JLabel(" ");
-	ImageIcon img = new ImageIcon("lamda.png");
+	ImageIcon img = new ImageIcon("Read/logo.png");
 	JLabel spacing1=new JLabel(" ");
 	JLabel spacing2=new JLabel(" ");
 	JLabel spacing3=new JLabel(" ");
@@ -93,7 +93,7 @@ public class LoginGUI extends JFrame{
 		    	String two=pass2F.getText();
 		    	if (one.equals(two)){
 		    		try {
-						repLine("password.txt",md5Hash(one));
+						repLine("Read/password.txt",md5Hash(one));
 					} catch (IOException e1) {
 						e1.printStackTrace();
 					} catch (NoSuchAlgorithmException e1) {
@@ -151,7 +151,7 @@ public class LoginGUI extends JFrame{
 		Box passBox = new Box(BoxLayout.LINE_AXIS);
 		Box infoBox=new Box(BoxLayout.LINE_AXIS);
 		infoBox.setAlignmentX(Component.CENTER_ALIGNMENT);
-		infoBox.add(new JLabel(new ImageIcon("FullLogo.png")));
+		infoBox.add(new JLabel(new ImageIcon("Read/FullLogo.png")));
 		//infoBox.add(info);
 		panel.add(infoBox);
 		panel.add(log);
@@ -177,7 +177,7 @@ public class LoginGUI extends JFrame{
 				String pass=password.getText();
 		    	String passHash="";
 		    	try {
-					passHash=getLine("password.txt", 0);
+					passHash=getLine("Read/password.txt", 0);
 				} catch (IOException e2) {
 					e2.printStackTrace();
 				}
@@ -252,7 +252,7 @@ public class LoginGUI extends JFrame{
 				String pass=password.getText();
 		    	String passHash="";
 		    	try {
-					passHash=getLine("password.txt", 0);
+					passHash=getLine("Read/password.txt", 0);
 				} catch (IOException e2) {
 					e2.printStackTrace();
 				}

@@ -52,6 +52,7 @@ public class Tag {
 		if (val == -1) { // If not found
 				val = tagsList.size()-1; // value is last line number
 				for(int x=0;x<InventoryGUI.Sheetdata.size();x++){
+					//System.out.println(x);
 					//Null pointer exception?
 					//null pointer exception when trying more than once
 					//InventoryGUI.inventoryFile.write(x,tagsList.size(),0,n);
@@ -92,8 +93,13 @@ public class Tag {
 	
 	//generates a tag that has already been created
 	public void writeTag() throws IOException {
+<<<<<<< HEAD
 		File f = new File(name + val + ".png");	//creates a new file with appropriate name and corresponding id number
 		ImageIO.write(tagPic, "PNG", f);	//writes file as a png
+=======
+		File f = new File("Tags/"+name + val + ".png");
+		ImageIO.write(tagPic, "PNG", f);
+>>>>>>> branch 'master' of https://github.com/Lamda-Coding/Client-Project.git
 	}
 
 	public Tag(int v) { // find tag for value at v
