@@ -20,9 +20,16 @@ public class ExcelFile {
 	
 	public ExcelFile(String n) throws IOException{
 		name = n;
-		FileInputStream file = new FileInputStream(name);
-		workbook = new HSSFWorkbook(file);
+		try{
+			FileInputStream file = new FileInputStream(name);
+			workbook = new HSSFWorkbook(file);
+		}catch (FileNotFoundException e){
+			workbook = new HSSFWorkbook();
+		}
 		data = new ArrayList<ArrayList<ArrayList<String>>>();
+    		FileOutputStream out = new FileOutputStream(name);
+    		workbook.write(out);
+    		out.close();
 	}
 
 	public void createSheet(String n){
