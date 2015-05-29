@@ -63,7 +63,7 @@ public class InventoryGUI extends JFrame {
 		// Allows sheet data to be accessed with the click of a button
 		for(int i=0;i<Sheetdata.size();i++){
 			sheetButtons.add(new JButton(inventoryFile.getSName(i)));
-			sheetButtons.get(i).addActionListener(new SheetButtonActionListener(sheetButtons.get(i),i){
+			sheetButtons.get(i).addActionListener(new SheetButtonActionListener(i){
 				@Override
 	            public void actionPerformed(ActionEvent e) {
 					setData(getSheet(this.getnum()));
@@ -101,7 +101,7 @@ public class InventoryGUI extends JFrame {
 		sheetPanel.add(copyButton);
 		JScrollPane sheetscrollPane = new JScrollPane(sheetPanel,JScrollPane.VERTICAL_SCROLLBAR_NEVER,
 	            JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-		copyButton.addActionListener(new SheetButtonActionListener(copyButton,last){
+		copyButton.addActionListener(new SheetButtonActionListener(last){
 			@Override
            // Saves the current sheet to a new sheet in Excel with the heading of the current date for increased organization.
             public void actionPerformed(ActionEvent e) {
