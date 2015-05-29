@@ -23,7 +23,7 @@ public class WordFile {
           doc.write(fos);   
           fos.close();   
      }
-     public void writeImg(String path) throws InvalidFormatException, IOException{
+     public void writeImg(String path, int l, int w) throws InvalidFormatException, IOException{
     	 
     	 FileInputStream file = new FileInputStream("C:\\Users\\Andrew\\Desktop\\"+ name + ".docx");
      
@@ -32,7 +32,7 @@ public class WordFile {
 
     	 String blipId = document.addPictureData(new FileInputStream(new File(path)), document.PICTURE_TYPE_JPEG);
 
-    	 document.createPicture(blipId,document.getNextPicNameNumber(document.PICTURE_TYPE_JPEG), 500, 500);
+    	 document.createPicture(blipId,document.getNextPicNameNumber(document.PICTURE_TYPE_JPEG), l, w);
 
     	 document.write(fos);
     	 
