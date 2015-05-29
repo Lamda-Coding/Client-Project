@@ -93,13 +93,8 @@ public class Tag {
 	
 	//generates a tag that has already been created
 	public void writeTag() throws IOException {
-<<<<<<< HEAD
-		File f = new File(name + val + ".png");	//creates a new file with appropriate name and corresponding id number
+		File f = new File("Tags/"+name + val + ".png");	//creates a new file with appropriate name and corresponding id number
 		ImageIO.write(tagPic, "PNG", f);	//writes file as a png
-=======
-		File f = new File("Tags/"+name + val + ".png");
-		ImageIO.write(tagPic, "PNG", f);
->>>>>>> branch 'master' of https://github.com/Lamda-Coding/Client-Project.git
 	}
 
 	public Tag(int v) { // find tag for value at v
