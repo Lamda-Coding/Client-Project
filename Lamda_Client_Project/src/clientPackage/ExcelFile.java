@@ -58,6 +58,8 @@ public class ExcelFile {
 	
 	/* reads all of the data in an excel file and stores it in a 3d array list
 	* the method iterates through every column, in every row, in each sheet
+	* Code inspired from the below link
+	* http://viralpatel.net/blogs/java-read-write-excel-file-apache-poi/
 	*/
 	public ArrayList<ArrayList<ArrayList<String>>> readAll(){
         try {
