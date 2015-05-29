@@ -68,16 +68,18 @@ public class InventoryGUI extends JFrame {
 	            public void actionPerformed(ActionEvent e) {
 					setData(getSheet(this.getnum()));
 					curSheet=this.getnum()-1;
+					// This loop sets the headings of the table in the GUI to be the first row found in the Excel file.
+					// It then traverses the remaining rows of the table and sets each cell equal to the corresponding
+					// value in the Excel file.
 					for (int i = 0; i<data.get(0).size(); i++){
-						//
 						table.getTableHeader().getColumnModel().getColumn(i).setHeaderValue(data.get(0).get(i));
 						for (int j=1;j<data.size();j++){
-							if (Character.isDigit((data.get(j).get(i).charAt(0)))){ //currently checks first; check all
+							if (Character.isDigit((data.get(j).get(i).charAt(0)))){ 
 							// sets the value at a cell of the JTable to the corresponding excel cell as an integer 
 							// if it is found to be a number.
 								table.setValueAt(Integer.parseInt(data.get(j).get(i)), j-1, i);
 							}
-							//sets the value to the JTable cell without casting it to an integer.
+							//sets the value to the JTable cell without casting it to an integer if it is not an integer.
 							else{
 								table.setValueAt((data.get(j).get(i)), j-1, i);
 								}
@@ -92,12 +94,16 @@ public class InventoryGUI extends JFrame {
 			sheetPanel.add(sheetButtons.get(i));
 			last=i+1;
 		}
+		
+		// A button is created to save the current sheet to file. The sheet is also implemented in a JScrollPane 
+		// for increased accessibility.
 		JButton copyButton=new JButton("Copy to new sheet");
 		sheetPanel.add(copyButton);
 		JScrollPane sheetscrollPane = new JScrollPane(sheetPanel,JScrollPane.VERTICAL_SCROLLBAR_NEVER,
 	            JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 		copyButton.addActionListener(new SheetButtonActionListener(copyButton,last){
 			@Override
+           // Saves the current sheet to a new sheet in Excel with the heading of the current date for increased organization.
             public void actionPerformed(ActionEvent e) {
 				InventoryGUI.frame.dispose();
 				DateFormat dateFormat = new SimpleDateFormat("MM-dd-yy");
@@ -157,9 +163,9 @@ public class InventoryGUI extends JFrame {
 	    table.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
 	    table.setDefaultRenderer(Object.class, centerRenderer);
 	    
-	    JScrollPane scrollPane = new JScrollPane(table);
-	    tablePanel.add(scrollPane, BorderLayout.CENTER);	//creates a panel containing the table
-	    //creates some buttons without a current use
+	    JScrollPane scrollPane = new JScrollPane(table);	
+	    tablePanel.add(scrollPane, BorderLayout.CENTER);	//creates a panel containing the table in a ScrollPane for accessibility
+	    // Creates a button that allows for the creation of new tags and access to existing tags
 	    JButton btnTag = new JButton("Make/Get Tags");
 	    btnTag.addActionListener(new ActionListener(){
 
@@ -172,7 +178,7 @@ public class InventoryGUI extends JFrame {
 			}
 	    	
 	    });
-	    //JButton btnSave = new JButton("Save to File");
+	    // Creates a button that will allow the user to read all of the tags in user-produced pictures & identify them
 	    JButton btnAdd = new JButton("Auto-Update from Images");
 	    btnAdd.addActionListener(new ActionListener(){
 	    	@Override
@@ -184,7 +190,6 @@ public class InventoryGUI extends JFrame {
 	    });
 	    buttonPanel.add(btnTag);
 	    buttonPanel.add(btnAdd);
-	    //buttonPanel.add(btnSave);
 	 // adds the panels to the frame and sets it to be visible
 	    frame.getContentPane().add(sheetscrollPane, BorderLayout.NORTH);
 	    frame.getContentPane().add(tablePanel, BorderLayout.CENTER);
@@ -193,6 +198,7 @@ public class InventoryGUI extends JFrame {
 	    JMenuBar menuBar = new JMenuBar();
         JMenu menu = new JMenu("File");
         menuBar.add(menu);
+        // The Exit button in the menu allows for easy exit of the program
         JMenuItem item = new JMenuItem("Exit");
         item.addActionListener(new ActionListener(){
             @Override
@@ -225,8 +231,9 @@ public class InventoryGUI extends JFrame {
 }
 
 
-//The next several classes render and edit the buttons contained in the tables using the specific mouse click, and record the location of 
-//the mouse click relative to the table by storing the row and column of the click.
+// The ButtonRenderer and ButtonEditor classesrender and edit the buttons contained in the tables using the 
+// specific mouse click, and record the location of the mouse click relative to the table by storing the row 
+// and column of the click for later use.
 class ButtonRenderer extends JButton implements TableCellRenderer {
 	  /**
 	 * 
@@ -293,19 +300,15 @@ class ButtonEditor extends DefaultCellEditor {
 		}
 	    return button;
 	  }
-	  // This method adds or subtracts 1 from the Quantity depending on whether + or - are clicked
+	  // This method adds or subtracts 1 from the Quantity column depending on whether + or - are clicked
 	  public void changeTable(JTable table, int row, int col) throws IOException{
 		  if (isPushed){
-			  if (col==3){ //changed from 3 to 2 (might be formatting error for my excel file)
-				  //System.out.println((table.getValueAt(row,col-1)));
+			  if (col==3){ 
 				  table.setValueAt((Integer)(table.getValueAt(row,col-1))+1, row, col-1);
-				  //System.out.println(InventoryGUI.Sheetdata);
 				  InventoryGUI.Sheetdata.get(InventoryGUI.curSheet).get(row+1).set(col-1,String.valueOf(table.getValueAt(row,col-1)));
-				  //System.out.println(InventoryGUI.Sheetdata);
 				  InventoryGUI.inventoryFile.write(InventoryGUI.curSheet,row+1,col-1,String.valueOf(table.getValueAt(row,col-1)));
 			  }
-			  else if (col==4){ //changed from 4 to 3 (might be formatting error for my excel file)
-				  //System.out.println((table.getValueAt(row,col-2)));
+			  else if (col==4){ 
 				  table.setValueAt((Integer)(table.getValueAt(row,col-2))-1, row, col-2);
 				  InventoryGUI.Sheetdata.get(InventoryGUI.curSheet).get(row+1).set(col-2,String.valueOf(table.getValueAt(row,col-2)));
 				  InventoryGUI.inventoryFile.write(InventoryGUI.curSheet,row+1,col-2,String.valueOf(table.getValueAt(row,col-2)));
