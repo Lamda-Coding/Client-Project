@@ -173,7 +173,8 @@ public class InventoryGUI extends JFrame {
 	    centerRenderer.setHorizontalAlignment(JLabel.CENTER);
 	    table.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
 	    table.setDefaultRenderer(Object.class, centerRenderer);
-	    
+	    //JScrollPane sheetscrollPane = new JScrollPane(sheetPanel,JScrollPane.VERTICAL_SCROLLBAR_NEVER,
+        //JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 	    JScrollPane scrollPane = new JScrollPane(table);	
 	    tablePanel.add(scrollPane, BorderLayout.CENTER);	//creates a panel containing the table in a ScrollPane for accessibility
 	    // Creates a button that allows for the creation of new tags and access to existing tags
@@ -203,7 +204,7 @@ public class InventoryGUI extends JFrame {
 	    buttonPanel.add(btnAdd);
 	 // adds the panels to the frame and sets it to be visible
 	    frame.getContentPane().add(sheetscrollPane, BorderLayout.NORTH);
-	    frame.getContentPane().add(tablePanel, BorderLayout.CENTER);
+	    frame.getContentPane().add(scrollPane, BorderLayout.CENTER);
 	    frame.getContentPane().add(buttonPanel, BorderLayout.SOUTH);
 	    //creates a menu bar that allows for easy accessibility
 	    JMenuBar menuBar = new JMenuBar();
